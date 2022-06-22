@@ -13,11 +13,11 @@ working_folder_name = '../data/tfs_rep_1/'
 bigWigFolder = '../../../../../bigwigs/rep1/'
 
 with open(ids_file, 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type', 'time', 'tratement'])
+    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type', 'time', 'treatment'])
 
 with cd(working_folder_name):
     for index, id in idsDf.iterrows():
-        targetFolder = os.path.join(id.tf, str(id.type), str(id.time), id.tratement)
+        targetFolder = os.path.join(id.tf, str(id.type), str(id.time), id.treatment)
         performBigWigextraction(targetFolder)
         with cd(targetFolder):
             file_names = os.listdir()
@@ -25,7 +25,6 @@ with cd(working_folder_name):
                 if 'coverage.bw' in file:
                     bigw = file
                     originalfolder = os.path.join(
-
                         bigw
                     )
                     finalFolder = os.path.join(

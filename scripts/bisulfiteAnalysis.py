@@ -7,27 +7,25 @@ import subprocess
 from utilpipeline import (
     checkMD5isCorrect,
     checkFastaQLenght,
-    performTrimGaloreFourFiles,
+    performTrimGaloreFourFilesBisulfite,
     qualityCheckTrimGaloreFourFiles,
-    performBismark
-
+    performBismark,
+    deduplicateBismark,
+    methylationExtractionBismark
 )
 
-ids_file = '../data/commonData/ids_bisulfite_rep1_rep2.csv'
+ids_file = '../data/commonData/ids_bisulfite_rep1_rep2_md5coorrect.csv'
 working_folder = '../data/bisulfite_rep1_rep2/'
 raw_folder = '../raw_bisulfite_rep1_rep2'
-working_folder_name = 'bisulfite_rep1_rep2'
 
 
 with open(ids_file, 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['id', 'rep', 'time', 'tratement'])
-
-
+    idsDf = pd.read_csv(samplesOntology, names=['id', 'rep', 'time', 'treatment'])
 
 with cd(working_folder):
     for index, id in idsDf.iterrows():
         gzs = []
-        targetFolder = os.path.join(id.tf, str(id.rep), str(id.time), id.tratement)
+        targetFolder = os.path.join(str(id.rep), str(id.time), id.treatment)
         Path(targetFolder).mkdir(parents=True, exist_ok=True)
         originalfolder = os.path.join(raw_folder, id.id)
         file_names = os.listdir(originalfolder)
@@ -35,7 +33,7 @@ with cd(working_folder):
             #  gz + MD5 in case of single-read or 2 gzs and MD5 in case of pair-ends, more if divided long files
             print('Checking MD5 from ' + id.id)
             if checkMD5isCorrect(originalfolder):
-                print('Checking Fastaq lenghts from ' + id.id)
+                print('Checking Fastaq lengths from ' + id.id)
                 if checkFastaQLenght(originalfolder):
                     for fileInside in file_names:
                         if 'gz' in fileInside:
@@ -44,7 +42,7 @@ with cd(working_folder):
                             shutil.move(originalFile, targetFolder)
 
                     print('Doing Trim galore in ' + targetFolder + ' from ' + id.id)
-                    performTrimGaloreFourFiles(targetFolder)
+                    performTrimGaloreFourFilesBisulfite(targetFolder)
                     for file in gzs:
                         destinationFile = os.path.join(targetFolder, file)
                         shutil.move(destinationFile, originalfolder)
@@ -52,10 +50,6 @@ with cd(working_folder):
                     if qualityCheckTrimGaloreFourFiles(targetFolder):
                         print('Doing bismark in ' + targetFolder + ' from ' + id.id)
                         performBismark(targetFolder)
+                        deduplicateBismark(targetFolder)
+                        #methylationExtractionBismark(targetFolder)
 
-#                        getBamAndDeleteSam(targetFolder)
-#                        if id.tf == 'Input':
-#                            print('this is an input file so dont do GEM!')
-#                        else:
-#                            performGEM(targetFolder, f'{id.time}/{id.tratement}', working_folder_name)
-#

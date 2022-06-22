@@ -15,19 +15,19 @@ from utilpipeline import (
     performGEM
 )
 
-ids_file = '../data/commonData/ids_data_rep_4.csv'
-working_folder = '../data/tfs_rep_4/'
-raw_folder = '../raw_data_rep_4'
-working_folder_name = 'tfs_rep_4' #TODO LA HE CAGADO PONIENDO AL PRINCIPIO AQUI LA REPLICA 2, ME HE CARGADDO LOS INPUT
+ids_file = '../data/commonData/ids_data_dobles.csv'
+working_folder = '../data/data_dobles/'
+raw_folder = '../raw_data_dobles'
+working_folder_name = 'data_dobles'
 bowtie2mode = '--sensitive'
 
 with open(ids_file, 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type', 'time', 'tratement'])
+    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type'])
 
 with cd(working_folder):
     for index, id in idsDf.iterrows():
         gzs = []
-        targetFolder = os.path.join(id.tf, str(id.type), str(id.time), id.tratement)
+        targetFolder = os.path.join(id.tf, str(id.type))
         Path(targetFolder).mkdir(parents=True, exist_ok=True)
 
         originalfolder = os.path.join(raw_folder, id.id)
@@ -51,22 +51,20 @@ with cd(working_folder):
                         shutil.move(destinationFile, originalfolder)
                     print('Trim galore finished,checking results...')
                     if qualityCheckTrimGalore(targetFolder):
-                        samfileexperiment = '{}{}{}{}.sam'.format(id.tf, str(id.type), str(id.time), id.tratement)
+                        samfileexperiment = '{}{}.sam'.format(id.tf, str(id.type))
                         print('Doing Bowtie2 in ' + targetFolder + ' from ' + id.id)
                         performBowtie2(
                             targetFolder,
                             bowtie2mode,
                             samfileexperiment
-                                        )
-
-                    getBamAndDeleteSam(targetFolder)
-                    sortBamFiles(targetFolder)
-                    if id.tf == 'Input':
-                        print('this is an input file so dont do GEM!')
-                    else:
-                        inputControlpath = os.path.join(
-                            '/home/joaquin/projects/methylation/data', working_folder_name, 'Input/amplified',
-                            f'{id.time}/{id.tratement}'
-                        )
-                        performGEM(targetFolder, inputControlpath, working_folder_name)
+                                       )
+                        getBamAndDeleteSam(targetFolder)
+                        sortBamFiles(targetFolder)
+                        if id.tf == 'Input':
+                            print('this is an input file so dont do GEM!')
+                        else:
+                            inputControlpath = os.path.join(
+                                '/home/bgp01/methylation/data', working_folder_name, 'Input/Input'
+                            )
+                            performGEM(targetFolder, inputControlpath, working_folder_name)
 

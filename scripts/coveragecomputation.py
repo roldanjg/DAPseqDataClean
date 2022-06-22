@@ -5,18 +5,17 @@ import pandas as pd
 import shutil
 import subprocess
 from utilpipeline import (
-    sortBedFiles,
+    sortBamFiles,
     performIntersect,
     manageFolderLocationIntersects,
     mergeResultsAmplifiedDirect
 )
 
-
 def forERFs():
-    return id.tf != 'MYC3' and id.tf != 'MYCH7'
+    return id.tf != 'MYC3' and id.tf != 'H7'
 
 def forInput():
-    return id.tf != 'MYC3' and id.tf != 'MYCH7' and id.tf != 'ERF15' and id.tf != 'ERF1'
+    return id.tf != 'MYC3' and id.tf != 'H7' and id.tf != 'ERF15' and id.tf != 'ERF1'
 
 def forMYCs():
     return id.tf != 'ERF15' and id.tf != 'ERF1'
@@ -36,8 +35,7 @@ with cd('../data/tfs_rep_1/'):
         targetFolder = os.path.join(id.tf, str(id.type), str(id.time), id.tratement)
         intersectsFolder = os.path.join('intersections', id.tf)
         Path(intersectsFolder).mkdir(parents=True, exist_ok=True)
-
-        sortBedFiles(targetFolder)
+        
         performIntersect(targetFolder, experimentTarget)
         manageFolderLocationIntersects(intersectsFolder, targetFolder)
         mergeResultsAmplifiedDirect(intersectsFolder, experimentTarget)
