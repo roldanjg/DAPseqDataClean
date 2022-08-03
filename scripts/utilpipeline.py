@@ -52,13 +52,13 @@ def performTrimGaloreFourFilesBisulfite(folder):
     with cd(folder):
         file_names = os.listdir()
         for file in file_names:
-            if '2_1.fq.gz' in file:
+            if '1_1.fq.gz' in file:
                 readOneOne = file
-            if '2_2.fq.gz' in file:
+            if '1_2.fq.gz' in file:
                 readOneTwo = file
-            if '3_1.fq.gz' in file:
+            if '4_1.fq.gz' in file:
                 readTwoOne = file
-            if '3_2.fq.gz' in file:
+            if '4_2.fq.gz' in file:
                 readTwoTwo = file
 
         subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
@@ -89,7 +89,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
         file_names = os.listdir()
         for file in file_names:
 
-            if '2_1_val_1_fastqc.zip' in file:
+            if '1_1_val_1_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readonefolder = file[:-4]
                 with open(readonefolder + '/fastqc_data.txt', 'r') as report:
@@ -97,7 +97,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
                         if re.match(r'^>>Per base sequence quality\tpass', line):
                             readOnepass = True
 
-            if '2_2_val_2_fastqc.zip' in file:
+            if '1_2_val_2_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readtwofolder = file[:-4]
                 with open(readtwofolder + '/fastqc_data.txt', 'r') as report:
@@ -105,7 +105,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
                         if re.match(r'^>>Per base sequence quality\tpass', line):
                             readTwopass = True
 
-            if '3_1_val_1_fastqc.zip' in file:
+            if '4_1_val_1_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readonefolder = file[:-4]
                 with open(readonefolder + '/fastqc_data.txt', 'r') as report:
@@ -113,7 +113,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
                         if re.match(r'^>>Per base sequence quality\tpass', line):
                             readOneOnepass = True
 
-            if '3_2_val_2_fastqc.zip' in file:
+            if '4_2_val_2_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readtwofolder = file[:-4]
                 with open(readtwofolder + '/fastqc_data.txt', 'r') as report:
@@ -165,7 +165,7 @@ def performBismark(folder):
      --path_to_aligner /home/joaquin/projects/anaconda3/envs/metilation/bin/ \
       --verbose /home/joaquin/projects/methylation/data/commonData/at/"""
     bismark = '/home/joaquin/projects/methylation/programs/Bismark-0.22.3/bismark'
-    genomeFolder = '/home/joaquin/projects/methylation/data/commonData/at'
+    genomeFolder = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/at'
 
 
     with cd(folder):
@@ -179,13 +179,13 @@ def performBismark(folder):
                 bis11 = file
             if 'L1_2_val_2.fq.gz' in file:
                 bis12 = file
-            if 'L3_1_val_1.fq.gz' in file:
+            if 'L4_1_val_1.fq.gz' in file:
                 bis21 = file
-            if 'L3_2_val_2.fq.gz' in file:
+            if 'L4_2_val_2.fq.gz' in file:
                 bis22 = file
 
         subprocess.call(
-                bismark + ' --parallel 2 --non_directional --genome_folder ' + genomeFolder +
+                bismark + ' --parallel 6 --non_directional --genome_folder ' + genomeFolder +
                 ' -1 ' + bis11 + ',' + bis21 +
                 ' -2 ' + bis12 + ',' + bis22 + ' >totalBismark.txt 2>&1',
                 shell=True
@@ -234,7 +234,7 @@ def deduplicateBismark(folder):
         for file in file_names:
             if 'L1_1_val_1_bismark_bt2_pe.bam' in file:
                 bisDone1 = file
-            if 'L3_1_val_1_bismark_bt2_pe.bam' in file:
+            if 'L4_1_val_1_bismark_bt2_pe.bam' in file:
                 bisDone2 = file
 
         subprocess.call(
@@ -246,7 +246,7 @@ def deduplicateBismark(folder):
 def methylationExtractionBismark(folder):
 
     methylationExtraction = '/home/joaquin/projects/methylation/programs/Bismark-0.22.3/bismark_methylation_extractor'
-    genomeFolder = '/home/joaquin/projects/methylation/data/commonData/at'
+    genomeFolder = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/at'
 
     with cd(folder):
         bisDeduplicated = None

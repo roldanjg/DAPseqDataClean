@@ -8,11 +8,11 @@ from utilpipeline import (
     calculationGemSummary
 )
 
-with open('../data/commonData/ids_data_allEcotipe_singleInput.csv', 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type'])
+with open('../data/commonData/ids_data_sophie.csv', 'r') as samplesOntology:
+    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'type', 'crazy'])
 
-with cd('../data/bigwig_allEcotipe_singleInput_N0/'):
+with cd('../data/data_sophie/'):
     for index, id in idsDf.iterrows():
-        targetFolder = os.path.join(id.tf, str(id.type))
+        targetFolder = os.path.join(id.tf, str(id.type), str(id.crazy))
         if not id.tf == 'Input':
             calculationGemSummary(targetFolder)

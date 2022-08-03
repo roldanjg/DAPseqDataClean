@@ -11,12 +11,13 @@ from utilpipeline import (
     qualityCheckTrimGaloreFourFiles,
     performBismark,
     deduplicateBismark,
-    methylationExtractionBismark
+    methylationExtractionBismark,
+    reportBismark
 )
 
-ids_file = '../data/commonData/ids_bisulfite_rep1_rep2_md5coorrect.csv'
-working_folder = '../data/bisulfite_rep1_rep2/'
-raw_folder = '../raw_bisulfite_rep1_rep2'
+ids_file = '../data/commonData/ids_bisulfite_rep3.csv'
+working_folder = '../data/bisulfite_rep1_rep2_rep3/'
+raw_folder = '../raw_bisulfite_rep1_rep2_rep3'
 
 
 with open(ids_file, 'r') as samplesOntology:
@@ -32,24 +33,28 @@ with cd(working_folder):
         if len(file_names) >= 2:
             #  gz + MD5 in case of single-read or 2 gzs and MD5 in case of pair-ends, more if divided long files
             print('Checking MD5 from ' + id.id)
-            if checkMD5isCorrect(originalfolder):
-                print('Checking Fastaq lengths from ' + id.id)
-                if checkFastaQLenght(originalfolder):
-                    for fileInside in file_names:
-                        if 'gz' in fileInside:
-                            gzs.append((fileInside))
-                            originalFile = os.path.join(originalfolder, fileInside)
-                            shutil.move(originalFile, targetFolder)
+            # if checkMD5isCorrect(originalfolder):
+            #     print('Checking Fastaq lengths from ' + id.id)
+            if checkFastaQLenght(originalfolder):
+                for fileInside in file_names:
+                    if 'gz' in fileInside:
+                        gzs.append((fileInside))
+                        originalFile = os.path.join(originalfolder, fileInside)
+                        shutil.move(originalFile, targetFolder)
 
-                    print('Doing Trim galore in ' + targetFolder + ' from ' + id.id)
-                    performTrimGaloreFourFilesBisulfite(targetFolder)
-                    for file in gzs:
-                        destinationFile = os.path.join(targetFolder, file)
-                        shutil.move(destinationFile, originalfolder)
-                    print('Trim galore finished,checking results...')
-                    if qualityCheckTrimGaloreFourFiles(targetFolder):
-                        print('Doing bismark in ' + targetFolder + ' from ' + id.id)
-                        performBismark(targetFolder)
-                        deduplicateBismark(targetFolder)
-                        #methylationExtractionBismark(targetFolder)
+                print('Doing Trim galore in ' + targetFolder + ' from ' + id.id)
+                performTrimGaloreFourFilesBisulfite(targetFolder)
+                for file in gzs:
+                    destinationFile = os.path.join(targetFolder, file)
+                    shutil.move(destinationFile, originalfolder)
+                print('Trim galore finished,checking results...')
+                if qualityCheckTrimGaloreFourFiles(targetFolder):
+                    print('Doing bismark in ' + targetFolder + ' from ' + id.id)
+                    performBismark(targetFolder)
+                    print('deduplicate bismark in ' + targetFolder + ' from ' + id.id)
+                    deduplicateBismark(targetFolder)
+                    print('methylationExtraction bismark in ' + targetFolder + ' from ' + id.id)
+                    methylationExtractionBismark(targetFolder)
+                    print('report bismark in ' + targetFolder + ' from ' + id.id)
+                    reportBismark(targetFolder)
 
