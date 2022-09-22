@@ -3,8 +3,8 @@ import os
 import shutil
 from pathlib import Path
 
-working_folder = '../data/data_sophie/'
-destination_folder = '../../gemFiles/gemsophie/'
+working_folder = '/home/joaquin/projects/methylation/data/data_Fragaria_vesca_Pose'
+destination_folder = '/home/joaquin/projects/methylation/data/gemFiles/gem_Fragaria_vesca_Pose'
 
 with cd(working_folder):
     for root, dirs, files in os.walk('./'):

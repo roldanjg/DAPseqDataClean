@@ -1,4 +1,0 @@
-/home/joaquin/projects/methylation/data/bigwigs/replicate1/MYC3direct1Mockcoverage.bw
-/home/joaquin/projects/methylation/data/bigwigs/replicate2/MYC3direct1Mockcoverage.bw
-/home/joaquin/projects/methylation/data/bigwigs/replicate3/MYC3direct1Mockcoverage.bw
-{'replicate1': '/home/joaquin/projects/methylation/data/bigwigs/replicate1/MYC3direct1Mockcoverage.bw', 'replicate2': '/home/joaquin/projects/methylation/data/bigwigs/replicate2/MYC3direct1Mockcoverage.bw', 'replicate3': '/home/joaquin/projects/methylation/data/bigwigs/replicate3/MYC3direct1Mockcoverage.bw'}

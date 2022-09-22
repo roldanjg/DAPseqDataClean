@@ -45,7 +45,7 @@ def performTrimGalore(folder):
                 readTwo = file
 
         subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '4', '--paired', readOne, readTwo])
+                        '--cores', '8', '--paired', readOne, readTwo])
 
 
 def performTrimGaloreFourFilesBisulfite(folder):
@@ -294,7 +294,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 50 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 30 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -320,7 +320,10 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
 
     """ Before running this function, you must had run
     cat <path_to_genome.fasta> |  awk -v RS=">" '{ print RS $0 > substr($1,1) ".fa"}''
-    in your common files folder and specify here the path to that document"""
+    in your common files folder and specify here the path to that document
+    
+    WARNING TAKE CARE WITH MULTIPROCESSING IN GEM, GIVES PROBLEMS (LUIS ORDUÑA SAID) WITH MULTIPLOCESSING
+    """
 
     
     GEM = '/home/joaquin/projects/methylation/programs/gem/gem.jar'
@@ -352,7 +355,7 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
                  '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                  '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
                  '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
-                 '--pp_nmotifs', '1', '--t', '40'],
+                 '--pp_nmotifs', '1', '--t', '1'],
                  stdout=subprocess.DEVNULL,
                  stderr=subprocess.STDOUT
             )
@@ -376,7 +379,7 @@ def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecificat
                 '--out', outputPaht, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
                 '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
-                '--pp_nmotifs', '1', '--t', '40'],
+                '--pp_nmotifs', '1', '--t', '1'],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.STDOUT
         )
@@ -417,7 +420,7 @@ def performGEMmultipleReplicate(folder, inputControlpath, working_folder_name): 
                  '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                  '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
                  '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
-                 '--pp_nmotifs', '1', '--t', '40'],
+                 '--pp_nmotifs', '1', '--t', '1'],
                  stdout=subprocess.DEVNULL,
                  stderr=subprocess.STDOUT
             )
@@ -431,7 +434,7 @@ def sortBamFiles(folder):
         for file in file_names:
             if '.bam' in file:
                 bamfile = file
-        subprocess.call('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@50 ' + bamfile,
+        subprocess.call('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@40 ' + bamfile,
                         shell=True
                         )
 
@@ -704,7 +707,7 @@ def performBigWigextraction(folder):
         subprocess.call('samtools index ' + bamsorted, shell=True)
         subprocess.call('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw +
-                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 10', shell=True)
+                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
 
 
 def calculationGemSummary(folder):
