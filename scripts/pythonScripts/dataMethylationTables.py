@@ -14,7 +14,7 @@ ids_file = '../data/commonData/ids_bisulfite_rep1_rep2.csv'
 working_folder = '../data/bisulfite_rep1_rep2/'
 
 idsDf = pd.read_csv(
-            ids_file, 
+            ids_file,
             names=['id', 'rep', 'time', 'treatment']
                     )
 

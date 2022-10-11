@@ -45,7 +45,7 @@ def performTrimGalore(folder):
                 readTwo = file
 
         subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '8', '--paired', readOne, readTwo])
+                        '--cores', '6', '--paired', readOne, readTwo])
 
 
 def performTrimGaloreFourFilesBisulfite(folder):
@@ -61,12 +61,24 @@ def performTrimGaloreFourFilesBisulfite(folder):
             if '4_2.fq.gz' in file:
                 readTwoTwo = file
 
-        subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '6', '--paired', readOneOne, readOneTwo])
-        subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '6', '--paired', readTwoOne, readTwoTwo])
+         # every time this subprocess run you should change the adapter to match the one used in sequencing
+        subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+                      ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
+                      '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
+                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
+                      '--paired ' + readOneOne + ' ' + readOneTwo, shell=True)
+        subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+                      ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
+                      '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
+                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
+                      '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True)
+        # subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
+        #                 '--cores', '4', '--paired', readOneOne, readOneTwo])
+        # subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
+        #                 '--cores', '4', '--paired', readTwoOne, readTwoTwo])
 
        ## every time this subprocess run you should change the adapter to match the one used in sequencing
+    #    this are the adapters from replicate one and two
        #subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 2' +
        #                ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
        #                '-a AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT ' +
@@ -163,7 +175,7 @@ def performBismark(folder):
     """"Previous to this step you must have run
      bismark_genome_preparation \
      --path_to_aligner /home/joaquin/projects/anaconda3/envs/metilation/bin/ \
-      --verbose /home/joaquin/projects/methylation/data/commonData/at/"""
+      --verbose /home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/at/"""
     bismark = '/home/joaquin/projects/methylation/programs/Bismark-0.22.3/bismark'
     genomeFolder = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/at'
 
@@ -183,9 +195,9 @@ def performBismark(folder):
                 bis21 = file
             if 'L4_2_val_2.fq.gz' in file:
                 bis22 = file
-
+        #  --parallel 6
         subprocess.call(
-                bismark + ' --parallel 6 --non_directional --genome_folder ' + genomeFolder +
+                bismark + ' --non_directional --genome_folder ' + genomeFolder +
                 ' -1 ' + bis11 + ',' + bis21 +
                 ' -2 ' + bis12 + ',' + bis22 + ' >totalBismark.txt 2>&1',
                 shell=True
@@ -206,9 +218,9 @@ def performBowtie2fourfiles(folder, bowtie2mode, samOutputName):
                 readOneOne = file
             if 'L2_2_val_2.fq.gz' in file:
                 readOneTwo = file
-            if 'L3_1_val_1.fq.gz' in file:
+            if 'L4_1_val_1.fq.gz' in file:
                 readTwoOne = file
-            if 'L3_2_val_2.fq.gz' in file:
+            if 'L4_2_val_2.fq.gz' in file:
                 readTwoTwo = file
 
         bowtie2stats = subprocess.run('bowtie2 --phred33 ' + bowtie2mode + ' -t -p 10 -x ' + genomeIndex +
@@ -515,6 +527,25 @@ def manageFolderLocationIntersects(destinationFolder, originFolder):
             originalFile = os.path.join(originFolder, file)
             shutil.copy(originalFile, destinationFolder)
 
+
+def renameGemFolders(working_folder,destination_folder):
+    with cd(working_folder):
+        for root, dirs, files in os.walk('./'):
+            #print(dirs)
+            if 'GEMout' in dirs:
+                namedir = str(root.replace('./', ''))
+                originalfolder = os.path.join(
+                    namedir,
+                    'GEMout'
+                )
+                finalFolder = os.path.join(
+                    destination_folder,
+                    str(root).replace('/', '').replace('.', '')+'GEMout'
+                )
+                print(originalfolder, finalFolder)
+                shutil.copytree(originalfolder, finalFolder)
+
+
 def performIntersectLoops(folder):
     with cd(folder):
         boxpath = {
@@ -628,7 +659,7 @@ def extractBoxRegionAndMetType(folder,headname):
     destination = '/home/joaquin/projects/methylation/data/bisulfite_rep1_rep2/reports/'
     with cd(folder):
         file_names = os.listdir()
-        print()
+        print() 
         csPosibilities = ['CG', 'CHG', 'CHH']
         for file in file_names:
             if '_box.mets.tsv' in file:
@@ -708,11 +739,22 @@ def performBigWigextraction(folder):
         subprocess.call('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw +
                         ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
+def renameAndMoveBigWig(targetFolder,bigWigFolder):
+    with cd(targetFolder):
+        file_names = os.listdir()
+        for file in file_names:
+            if 'coverage.bw' in file:
+                bigw = file
+                originalfolder = os.path.join(
+                    targetFolder, bigw
+                )
+                print(originalfolder, bigWigFolder)
+                shutil.copy2(bigw, bigWigFolder)
 
 
 def calculationGemSummary(folder):
     with cd(folder):
-        print('-------------' + folder + '-------------')
+
         significant = None
 
         try:
@@ -723,15 +765,27 @@ def calculationGemSummary(folder):
                     # if '_CTRL' in line:
                     #    print(line)
                     if 'Significant:' in line:
+                        print(line)
                         significant = int(line.split('\t')[1])
                     # if 'Insignificant:' in line:
                     #    ins = line
                     # if 'Filtered:' in line:
                     #    fil = line
-            print(significant)
-            return folder, significant
+            if significant == None:
+                return 'No significant Peaks'
+            return significant
         except:
             print('no gem done')
+filename = '/home/joaquin/projects/methylation/data/data_medicago/Input/Medicago/bowtie2stats.txt'
+
+def calculationBowtieSummary(filepath):
+    filename = os.path.join(filepath,'bowtie2stats.txt')
+    with open(filename, 'r') as bowstats:
+        for line in bowstats:
+            reads = re.search(r'([\d]+) reads; of these:',line)
+            regular = re.search(r'([\d,\.]+)% overall alignment rate',line)
+
+        return reads.group(1),regular.group(1)
 
 def mapMethytilatedCitosine(folder):
 

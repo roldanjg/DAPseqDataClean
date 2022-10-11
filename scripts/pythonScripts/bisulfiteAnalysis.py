@@ -15,9 +15,9 @@ from utilpipeline import (
     reportBismark
 )
 
-ids_file = '../data/commonData/ids_bisulfite_rep3.csv'
-working_folder = '../data/bisulfite_rep1_rep2_rep3/'
-raw_folder = '../raw_bisulfite_rep1_rep2_rep3'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_bisulfite_rep3.csv'
+working_folder = '/home/joaquin/projects/methylation/data/bisulfite_rep1_rep2_rep3'
+raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_bisulfite_rep1_rep2_rep3'
 
 
 with open(ids_file, 'r') as samplesOntology:
