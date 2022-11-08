@@ -1,19 +1,12 @@
-from cdmanager import cd
 import os
-from pathlib import Path
-import pandas as pd
 import shutil
-import subprocess
-from utilpipeline import (
-    checkMD5isCorrect,
-    checkFastaQLenght,
-    performTrimGalore,
-    qualityCheckTrimGalore,
-    performBowtie2,
-    getBamAndDeleteSam,
-    sortBamFiles,
-    performGEM
-)
+import pandas as pd
+from cdmanager import cd
+
+from utilpipeline import (checkFastaQLenght, checkMD5isCorrect,
+                          getBamAndDeleteSam, performBowtie2, performGEM,
+                          performTrimGalore, qualityCheckTrimGalore,
+                          sortBamFiles)
 
 ids_file = '../data/commonData/ids_data_dobles.csv'
 working_folder = '../data/data_dobles/'
@@ -40,7 +33,8 @@ with cd(working_folder):
                 if checkFastaQLenght(originalfolder):
                     for fileInside in file_names:
                         if 'gz' in fileInside:
-                            gzs.append((fileInside))
+                            gzs.append((
+                                fileInside))
                             originalFile = os.path.join(originalfolder, fileInside)
                             shutil.move(originalFile, targetFolder)
 

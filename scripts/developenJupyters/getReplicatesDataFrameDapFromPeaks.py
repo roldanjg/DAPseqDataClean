@@ -81,7 +81,7 @@ def generateDfandNormaliceDataTPMs(folder,dataColName):
     fileDf = pd.read_csv(csvFilePath,header=0, names=['chr','star','end','id',dataColName])
     totalReads = fileDf[dataColName].sum()
 
-    scalingFactor = totalReads/1000000
+    scalingFactor = totalReads/100000
 
     fileDf[dataColName] = fileDf[dataColName].apply(lambda x: x/scalingFactor)
 

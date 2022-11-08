@@ -9,6 +9,7 @@ import filecmp
 import re
 import gzip
 import csv
+import json
 
 from constants import genomeIndex, gemIndex, genomeSizes
 
@@ -841,7 +842,8 @@ def bigwigReplicatesAnalisys(experimentDic, experimentNameBase):
             ' -p 40 -o '+ experimentNameBase + '.npz' +' --outRawCounts ' + experimentNameBase + '.tab',
             shell=True
         )
-def getTheMeanValueFromBigWigReplicates(tsvFromMultiBigwigSummary):
+    
+def getTheMeanValueFromBigWigReplicates(tsvFromMultiBigwigSummary, metstate):
 
     with open(tsvFromMultiBigwigSummary) as f:
         first_line = f.readline()
@@ -854,16 +856,74 @@ def getTheMeanValueFromBigWigReplicates(tsvFromMultiBigwigSummary):
 
     meansummaryDf = pd.read_csv(tsvFromMultiBigwigSummary, sep='\t', header=0, names=lineBasePartList, dtype={'chr':str})
     meansummaryDf.drop(meansummaryDf[(meansummaryDf.chr == 'Mt') | (meansummaryDf.chr == 'Pt')].index, inplace=True)
-    meansummaryDf['average'] = meansummaryDf[lineDiferenPartList].mean(axis=1)
+    meansummaryDf[metstate] = meansummaryDf[lineDiferenPartList].mean(axis=1)
     meansummaryDf.drop(columns=lineDiferenPartList, inplace=True)
     meansummaryDf['chr'] = pd.to_numeric(meansummaryDf['chr'])
     meansummaryDf = meansummaryDf.sort_values(['chr','start'])
     meansummaryDf.to_csv(tsvFromMultiBigwigSummary[:-4] + '.bedgraph', sep='\t', index=False, header=False)
+    return meansummaryDf
 
 def bedgraphToBwFromMean(bedgraphFilePath, speciesIndexChrSize):
     subprocess.call('bedGraphToBigWig ' + bedgraphFilePath + ' ' + speciesIndexChrSize + ' ' + bedgraphFilePath[:-8]+'bw',
             shell=True)
 
+
+def generateReplicatesOrder(pattern):
+
+    metadata = '/home/joaquin/projects/methylation/data/commonData/ids_data_allReplicates_methylation.json'
+    basePathDataFolder = '/home/joaquin/projects/methylation/data'
+    narrowPeakLocationFolders = ['tfs_rep_1','tfs_rep_3_input_from_rep_2', 'tfs_rep_2', 'tfs_rep_4']
+    specificPathsSumary = {}
+
+
+    with open(metadata) as jsonMetadata:
+         experimentsClasification = json.load(jsonMetadata)['experiments']
+
+    for experiment in experimentsClasification:
+        specificPathsSumary[experiment['condition']] = {}
+        for metState in ['direct', 'amplified']:
+            specificPathsSumary[experiment['condition']][metState] = {}
+            for exptype in ['sample', 'input']:
+                specificPathsSumary[experiment['condition']][metState][exptype] = {}
+                for replicate, number in zip(
+                    experiment[metState],
+                    ['replicate1','replicate2', 'replicate3']
+                ):
+
+                    expeId, expPath = replicate[number][0][exptype].strip().split(',')
+            # if it is a missing experiment dont continue with the analisys
+                    if 'MISSING' in expeId:
+                        print(number, expPath, expeId)
+                        continue
+                    for possiblenarrowPeakFolder in narrowPeakLocationFolders:
+                        narrowPeakFolder = None
+                        path = os.path.join(basePathDataFolder,possiblenarrowPeakFolder,expPath)
+            # make a list of the files in each posible directory. Try and continue if the experiment was not 
+            # done for the replicate. 
+                        try:
+                            filesInFolder = os.listdir(path)
+                        except FileNotFoundError:
+                            continue
+            # search for the specific experiment id inside the folder in the names to check if it is the correct folder
+            # and stop searching if it is inside
+                        bw = "None"
+                        for file in filesInFolder:
+                            if 'html' in file:
+                                fileid=file
+                            elif pattern in file:
+                                bw = file
+        #                 print(fileid)
+        #                 print(expeId)
+                        if fileid.startswith(expeId):
+                            narrowPeakFolder = possiblenarrowPeakFolder
+                            break
+
+                    narrowpeakFileOriginalPath = os.path.join(
+                        basePathDataFolder,narrowPeakFolder,expPath,bw
+                    )
+        #             specificPathsSumary[experiment['condition']][metState].append((narrowPeakFolder,narrowpeakFileOriginalPath))
+                    specificPathsSumary[experiment['condition']][metState][exptype][number] = narrowpeakFileOriginalPath 
+    return specificPathsSumary
 # destination = '/home/joaquin/projects/methylation/data/bisulfite_rep1_rep2/reports/'
 #     with cd(folder):
 #         file_names = os.listdir()

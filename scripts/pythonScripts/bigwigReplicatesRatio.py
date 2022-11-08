@@ -2,7 +2,7 @@ import os
 import re
 from functools import reduce
 from os.path import exists, join
-
+import numpy as np
 import pandas as pd
 
 from utilpipeline import (bedgraphToBwFromMean, bigwigReplicatesAnalisys,
@@ -18,9 +18,9 @@ for experiment in experimentsToCheck:
     dataframesampdir = []
     for metState in experimentsToCheck[experiment]:
         experimentReplicatesDict = experimentsToCheck[experiment][metState]['sample']
-        print(experimentReplicatesDict)
+        print(experimentReplicatesDict, experiment,metState)
 
-        experimentNameBase = join(resultsFolder, experiment)
+        experimentNameBase = join(resultsFolder, experiment+metState)
         bigwigReplicatesAnalisys(experimentReplicatesDict, experimentNameBase)
 
         tsvFileFromMultiBigwigSummary = experimentNameBase + '.tab'
@@ -30,7 +30,12 @@ for experiment in experimentsToCheck:
     bedgraphFilePath = os.path.join(resultsFolder,experiment + '.bedgraph')
     df_merged = reduce(lambda  left,right: pd.merge(left,right,on=['chr','start','end'],
                                                     how='outer'), dataframesampdir).fillna(0)
+    
+    df_merged['ratio'] = df_merged['direct']/df_merged['amplified']
+    df_merged.replace([np.inf, -np.inf], 0, inplace=True)
+    df_merged.fillna(0, inplace=True)
+    
+    df_merged = df_merged.drop(columns=['direct','amplified'])
     df_merged.to_csv(bedgraphFilePath, sep='\t', index=False, header=False)
     bedgraphToBwFromMean(bedgraphFilePath, speciesIndexChrSize)
-
-
+    

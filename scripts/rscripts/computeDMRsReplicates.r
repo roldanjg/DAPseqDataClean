@@ -38,7 +38,7 @@ DMRsReplicatesNeighbourhood <- computeDMRsReplicates(methylationData = leftSide,
                                                      minGap = 200,
                                                      minSize = 50,
                                                      minReadsPerCytosine = 4,
-                                                     cores = 1)
+                                                     cores = 40)
 
 head(DMRsReplicatesNeighbourhood)
 
