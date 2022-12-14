@@ -426,17 +426,17 @@ def performGEMmultipleReplicate(folder, inputControlpath, working_folder_name): 
             if file.endswith('orted.bam'):
                 bamfile = file
 
-        subprocess.call(
-                ['java', '-jar', GEM, '--d', Read_Distribution_default,
-                 '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
-                 '--expt1', bamfileOne, '--expt2', bamfileTwo, '--ctrl1', inputControlOne, '--ctrl2', inputControlTwo,
-                 '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
-                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
-                 '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
-                 '--pp_nmotifs', '1', '--t', '1'],
-                 stdout=subprocess.DEVNULL,
-                 stderr=subprocess.STDOUT
-            )
+        # subprocess.call(
+        #         ['java', '-jar', GEM, '--d', Read_Distribution_default,
+        #          '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+        #          '--expt1', bamfileOne, '--expt2', bamfileTwo, '--ctrl1', inputControlOne, '--ctrl2', inputControlTwo,
+        #          '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+        #          '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+        #          '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+        #          '--pp_nmotifs', '1', '--t', '1'],
+        #          stdout=subprocess.DEVNULL,
+        #          stderr=subprocess.STDOUT
+        #     )
             
 
 
@@ -738,8 +738,22 @@ def performBigWigextraction(folder):
 
         subprocess.call('samtools index ' + bamsorted, shell=True)
         subprocess.call('bamCoverage -b ' + bamsorted +
-                        ' -o ' + bigw +
-                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
+                        ' -o ' + bigw + 
+                        '--normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
+
+def performBedGraphextraction(folder):
+    with cd(folder):
+        file_names = os.listdir()
+        for file in file_names:
+            if file.endswith('orted.bam'):
+                # samsorted = file
+                bamsorted = file
+                bigw = str(bamsorted[:-10]) + 'coverage.bedgraph'
+        # subprocess.call('samtools index ' + bamsorted, shell=True)
+        subprocess.call('bamCoverage -b ' + bamsorted +
+                        ' -o ' + bigw + 
+                        ' -of bedgraph --normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
+
 def renameAndMoveBigWig(targetFolder,bigWigFolder):
     with cd(targetFolder):
         file_names = os.listdir()

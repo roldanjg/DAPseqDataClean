@@ -5,7 +5,7 @@ import pandas as pd
 import shutil
 import subprocess
 from utilpipeline import (
-    performBigWigextraction
+    performBedGraphextraction
 )
 
 ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_data_dobles_JM15.csv'
@@ -18,11 +18,11 @@ with open(ids_file, 'r') as samplesOntology:
 with cd(working_folder_name):
     for index, id in idsDf.iterrows():
         targetFolder = os.path.join(id.replicate,id.condition,str(id.experimentid),str(id.inputid))
-        performBigWigextraction(targetFolder)
+        performBedGraphextraction(targetFolder)
         with cd(targetFolder):
             file_names = os.listdir()
             for file in file_names:
-                if 'coverage.bw' in file:
+                if 'coverage.bedgraph' in file:
                     bigw = file
                     originalfolder = os.path.join(
                         bigw
