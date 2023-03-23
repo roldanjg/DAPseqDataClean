@@ -3,13 +3,13 @@ import subprocess
 
 
 
-x = '/home/joaquin/projects/methylation/fasta/fastafiles'
+x = '/home/joaquin/projects/methylation/fasta/clusterfastafile'
 background = '/home/joaquin/projects/methylation/fasta/TAIR10_Model00.txt'
-outfolder = '/home/joaquin/projects/methylation/fasta/outresultzoopsparal'
+outfolder = '/home/joaquin/projects/methylation/fasta/ortes'
 listedDir = listdir(x)
 
 for file in listedDir: 
-    fimename = x+'/'+file
+    fimename = x+'/'+file 
     print(file)
     print(f'meme-chip {fimename} -o {outfolder}/{file[:-3]}  -bfile {background} -meme-mod zoops -meme-minw 8 -meme-maxw 15 -meme-nmotifs 2')
     endProcess = subprocess.run(

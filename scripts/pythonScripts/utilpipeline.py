@@ -46,7 +46,7 @@ def performTrimGalore(folder):
                 readTwo = file
 
         subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '6', '--paired', readOne, readTwo])
+                        '--cores', '2', '--paired', readOne, readTwo])
 
 
 def performTrimGaloreFourFilesBisulfite(folder):
@@ -307,7 +307,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 30 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 10 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -373,6 +373,45 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
                  stderr=subprocess.STDOUT
             )
 
+
+def performGEMnoinput(folder, working_folder_name):  # inputSpecification = f'{id.time}/{id.tratement}'
+
+    """ Before running this function, you must had run
+    cat <path_to_genome.fasta> |  awk -v RS=">" '{ print RS $0 > substr($1,1) ".fa"}''
+    in your common files folder and specify here the path to that document
+    
+    WARNING TAKE CARE WITH MULTIPROCESSING IN GEM, GIVES PROBLEMS (LUIS ORDUÑA SAID) WITH MULTIPLOCESSING
+    """
+
+    
+    GEM = '/home/joaquin/projects/methylation/programs/gem/gem.jar'
+    Read_Distribution_default = '/home/joaquin/projects/methylation/programs/gem/Read_Distribution_default.txt'
+    #inputControlpath = os.path.join(
+    #    '/home/joaquin/projects/methylation/data', working_folder_name, 'Input/amplified', inputSpecification
+    #)
+    outputFolder = os.path.join('/home/joaquin/projects/methylation/data', working_folder_name, folder, 'GEMout')
+
+    with cd(folder):
+        Path(outputFolder).mkdir(parents=True, exist_ok=True)
+        bamfile = False
+        file_names = os.listdir()
+        for file in file_names:
+
+            if file.endswith('orted.bam'):
+                bamfile = file
+        subprocess.call(
+            ['java', '-jar', GEM, '--d', Read_Distribution_default,
+                 '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+                 '--expt', bamfile, '--poisson_control',
+                 '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+                 '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+                 '--pp_nmotifs', '1', '--t', '1'],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT
+        )
+
+
 def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecification = f'{id.time}/{id.tratement}'
 
     """ Before running this function, you must had run
@@ -385,6 +424,13 @@ def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecificat
     #inputControlpath = os.path.join(
     #    '/home/joaquin/projects/methylation/data', working_folder_name, 'Input/amplified', inputSpecification
     #)
+    print('java', '-jar', GEM, '--d', Read_Distribution_default,
+                '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+                '--expt', samplePath, '--ctrl', inputControlpath,
+                '--out', outputPaht, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+                '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+                '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+                '--pp_nmotifs', '1', '--t', '1')
     subprocess.call(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
                 '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
@@ -447,7 +493,7 @@ def sortBamFiles(folder):
         for file in file_names:
             if '.bam' in file:
                 bamfile = file
-        subprocess.call('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@40 ' + bamfile,
+        subprocess.call('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@30 ' + bamfile,
                         shell=True
                         )
 
@@ -739,7 +785,7 @@ def performBigWigextraction(folder):
         subprocess.call('samtools index ' + bamsorted, shell=True)
         subprocess.call('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw + 
-                        '--normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
+                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 10', shell=True)
 
 def performBedGraphextraction(folder):
     with cd(folder):
@@ -791,7 +837,6 @@ def calculationGemSummary(folder):
             return significant
         except:
             print('no gem done')
-filename = '/home/joaquin/projects/methylation/data/data_medicago/Input/Medicago/bowtie2stats.txt'
 
 def calculationBowtieSummary(filepath):
     filename = os.path.join(filepath,'bowtie2stats.txt')

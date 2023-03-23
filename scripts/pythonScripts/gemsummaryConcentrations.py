@@ -9,12 +9,12 @@ import matplotlib.pyplot as plt
 from utilpipeline import (
     calculationGemSummary
 )
+ 
 
-
-with open('../data/commonData/ids_data_concentraciones.csv', 'r') as samplesOntology:
+with open('/home/joaquin/projects/methylation/data/commonData/ids_concentraciones_round2.csv', 'r') as samplesOntology:
     idsDf = pd.read_csv(samplesOntology, names=['id', 'tf',  'time', 'concentration'])
 
-with cd('../data/data_concentraciones/'):
+with cd('/home/joaquin/projects/methylation/data/data_concentraciones_round2/'):
     currentTime = None
     currentTf = None
     concentrations = []
@@ -22,9 +22,9 @@ with cd('../data/data_concentraciones/'):
     for index, id in idsDf.iterrows():
         targetFolder = os.path.join(id.tf, str(id.time), id.concentration)
         if not id.concentration == 'Input':
-            with open('significantPeaksGemSum.tsv', 'a+') as sumfile:
-                file, peaks = calculationGemSummary(targetFolder)
-                sumfile.write('{}\t{}\n'.format(file, peaks))
+            with open('significantPeaksGemSumRound2.tsv', 'a+') as sumfile:
+                peaks = calculationGemSummary(targetFolder)
+                sumfile.write('{}\t{}\n'.format(targetFolder, peaks))
             if currentTime == str(id.time) or currentTime == None:
                 currentTime = str(id.time)
                 if currentTf == str(id.tf) or currentTf == None:
@@ -47,7 +47,7 @@ with cd('../data/data_concentraciones/'):
                 plt.legend()
                 plt.xlabel("Concetrations")
                 plt.ylabel("S Peaks")
-                plt.savefig('concentrationsComparation{}mins.jpg'.format(currentTime),
+                plt.savefig('concentrationsComparation{}minsRound2.jpg'.format(currentTime),
                             dpi=300, bbox_inches='tight')  # _500x10 cbust5000AUC
                 plt.clf()
                 currentTime = str(id.time)
@@ -57,7 +57,7 @@ with cd('../data/data_concentraciones/'):
     plt.legend()
     plt.xlabel("Concetrations(ng)")
     plt.ylabel("S Peaks")
-    plt.savefig('concentrationsComparation{}mins.jpg'.format(currentTime),
+    plt.savefig('concentrationsComparation{}minsRound2.jpg'.format(currentTime),
                 dpi=300, bbox_inches='tight')  # _500x10 cbust5000AUC
     plt.clf()
 
