@@ -5,7 +5,6 @@ import pandas as pd
 import shutil
 from pathlib import Path
 from cdmanager import cd
-import filecmp
 import re
 import gzip
 import csv
@@ -15,9 +14,16 @@ from constants import genomeIndex, gemIndex, genomeSizes
 
 def checkMD5isCorrect(folder):
     with cd(folder):
-        subprocess.call('md5sum *gz >check.txt', shell=True)
-        if filecmp.cmp('MD5.txt', 'check.txt', shallow=False):
-            # os.remove("MD5.txt")
+        if not os.path.isfile('check.txt'):
+            subprocess.call('md5sum *gz >check.txt', shell=True)
+        md5lines = set()
+        for md5 in ['MD5.txt','check.txt']:
+            len_file = 0
+            with open(md5,'r') as openmd5:
+                for line in openmd5:
+                    md5lines.add(line.strip().split('\s\s')[0])
+                    len_file +=1
+        if len_file == len(md5lines):
             return True
         else:
             print('Files in ' + folder + 'are corrupted by MD5 annalisys')
@@ -46,7 +52,7 @@ def performTrimGalore(folder):
                 readTwo = file
 
         subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-                        '--cores', '2', '--paired', readOne, readTwo])
+                        '--cores', '4', '--paired', readOne, readTwo])
 
 
 def performTrimGaloreFourFilesBisulfite(folder):
@@ -307,7 +313,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 10 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 34 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -486,6 +492,34 @@ def performGEMmultipleReplicate(folder, inputControlpath, working_folder_name): 
             
 
 
+def performGEMmultipleReplicateSpecialcase(bam_one_path,bam_two_path,inputControlpath, outputFolder):  # inputSpecification = f'{id.time}/{id.tratement}'
+
+    """ Before running this function, you must had run
+    cat <path_to_genome.fasta> |  awk -v RS=">" '{ print RS $0 > substr($1,1) ".fa"}''
+    in your common files folder and specify here the path to that document"""
+
+    
+    GEM = '/home/joaquin/projects/methylation/programs/gem/gem.jar'
+    Read_Distribution_default = '/home/joaquin/projects/methylation/programs/gem/Read_Distribution_default.txt'
+
+    print('java', '-jar', GEM, '--d', Read_Distribution_default,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl', inputControlpath,
+             '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+             '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+             '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+             '--pp_nmotifs', '1', '--t', '1')
+    subprocess.call(
+            ['java', '-jar', GEM, '--d', Read_Distribution_default,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl', inputControlpath,
+             '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+             '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+             '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+             '--pp_nmotifs', '1', '--t', '1'],
+             stdout=subprocess.DEVNULL,
+             stderr=subprocess.STDOUT
+        )
 def sortBamFiles(folder):
     with cd(folder):
         # samtools = '/home/joaquin/projects/webproyect/programs/samtools-1.10/samtools'

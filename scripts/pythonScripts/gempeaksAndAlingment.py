@@ -9,19 +9,19 @@ from utilpipeline import (
     calculationGemSummary,
     calculationBowtieSummary
 )
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_data_MYC2_Fragaria_vesca_Franco.csv'
-working_folder = '/home/joaquin/projects/methylation/data/data_MYC2_Fragaria_vesca_Franco/'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_muts_bHLH25_bHLH19.csv'
+working_folder = '/home/joaquin/projects/methylation/data/data_muts_bHLH25_bHLH19/'
 
 
 with open(ids_file, 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'inputid'])
+    idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'inputid','replicatenumber'])
 
 
 with open(f'{working_folder}/summary.tsv', 'w') as  hola:
 
     with cd(working_folder):
         for index, id in idsDf.iterrows():
-            targetFolder = os.path.join(id.tf, str(id.inputid))
+            targetFolder = os.path.join(id.tf, str(id.inputid),str(id.replicatenumber))
             Significant='not done'
             if id.tf != 'Input':
                 Significant = calculationGemSummary(targetFolder)
@@ -32,7 +32,7 @@ with open(f'{working_folder}/summary.tsv', 'w') as  hola:
                     Significant)
             hola.write(
                 '{}\t{}\t{}\t{}\n'.format(
-                    id.tf, 
+                    id.tf+'_'+str(id.inputid)+'_'+str(id.replicatenumber) ,
                     reads,
                     alingpercent,
                     Significant

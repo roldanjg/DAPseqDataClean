@@ -27,7 +27,7 @@ genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisTha
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome_index' 
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome_index'
 # sed -i 's/ version 1.0//g' Carietinum_492_v1.0.fa
-
+# genomeIndex = '/home/joaquin/projects/methylation/data/pseudogenomesAt/genome_index'
 
 """
 
