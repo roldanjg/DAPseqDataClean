@@ -15,7 +15,7 @@ from constants import genomeIndex, gemIndex, genomeSizes
 def checkMD5isCorrect(folder):
     with cd(folder):
         if not os.path.isfile('check.txt'):
-            subprocess.call('md5sum *gz >check.txt', shell=True)
+            subprocess.run('md5sum *gz >check.txt', shell=True)
         md5lines = set()
         for md5 in ['MD5.txt','check.txt']:
             len_file = 0
@@ -55,7 +55,7 @@ def performTrimGalore(folder):
                         '--cores', '4', '--paired', readOne, readTwo])
 
 
-def performTrimGaloreFourFilesBisulfite(folder):
+def performTrimGaloreFourFilesBisulfite(folder, mate):
     with cd(folder):
         file_names = os.listdir()
         for file in file_names:
@@ -63,43 +63,42 @@ def performTrimGaloreFourFilesBisulfite(folder):
                 readOneOne = file
             if '1_2.fq.gz' in file:
                 readOneTwo = file
-            if '4_1.fq.gz' in file:
+            if f'{mate}_1.fq.gz' in file:
                 readTwoOne = file
-            if '4_2.fq.gz' in file:
+            if f'{mate}_2.fq.gz' in file:
                 readTwoTwo = file
-
-         # every time this subprocess run you should change the adapter to match the one used in sequencing
-        subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
-                      ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
-                      '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
-                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
-                      '--paired ' + readOneOne + ' ' + readOneTwo, shell=True)
-        subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
-                      ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
-                      '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
-                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
-                      '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True)
-        # subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-        #                 '--cores', '4', '--paired', readOneOne, readOneTwo])
-        # subprocess.run(['trim_galore', '--phred33', '--fastqc', '--suppress_warn',
-        #                 '--cores', '4', '--paired', readTwoOne, readTwoTwo])
-
-       ## every time this subprocess run you should change the adapter to match the one used in sequencing
+        ## every time this subprocess run you should change the adapter to match the one used in sequencing
     #    this are the adapters from replicate one and two
-       #subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 2' +
-       #                ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
-       #                '-a AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT ' +
-       #                '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG ' +
-       #                '--paired ' + readOneOne + ' ' + readOneTwo, shell=True)
-       #subprocess.call('trim_galore --phred33 --fastqc --suppress_warn --cores 2' +
-       #                ' --clip_R1 10 --clip_R2 10 --stringency 1 ' +
-       #                '-a AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT ' +
-       #                '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG ' +
-       #                '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True)
+        subprocess.run('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+                      ' --clip_R1 10 --clip_R2 10 --three_prime_clip_R2 10 --three_prime_clip_R1 10 ' +
+                      '-a AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT ' +
+                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG ' +
+                      '--paired ' + readOneOne + ' ' + readOneTwo, shell=True, check=True)
+        subprocess.run('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+                      ' --clip_R1 10 --clip_R2 10 --three_prime_clip_R2 10 --three_prime_clip_R1 10 ' +
+                      '-a AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT ' +
+                      '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG ' +
+                      '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True, check=True)
+       
+         # every time this subprocess run you should change the adapter to match the one used in sequencing
+        #  this are the adapters for replicate three
+        # subprocess.run('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+        #               ' --clip_R1 10 --clip_R2 10 --three_prime_clip_R2 10 --three_prime_clip_R1 10 ' +
+        #               '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
+        #               '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
+        #               '--paired ' + readOneOne + ' ' + readOneTwo, shell=True, check=True)
+        # subprocess.run('trim_galore --phred33 --fastqc --suppress_warn --cores 4' +
+        #               ' --clip_R1 10 --clip_R2 10 --three_prime_clip_R2 10 --three_prime_clip_R1 10 ' +
+        #               '-a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT ' +
+        #               '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
+        #               '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True,check=True)
+
+
+       
 
 
 
-def qualityCheckTrimGaloreFourFiles(folder):
+def qualityCheckTrimGaloreFourFiles(folder, mate):
     with cd(folder):
         readOnepass = False
         readTwopass = False
@@ -124,7 +123,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
                         if re.match(r'^>>Per base sequence quality\tpass', line):
                             readTwopass = True
 
-            if '4_1_val_1_fastqc.zip' in file:
+            if f'{mate}_1_val_1_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readonefolder = file[:-4]
                 with open(readonefolder + '/fastqc_data.txt', 'r') as report:
@@ -132,7 +131,7 @@ def qualityCheckTrimGaloreFourFiles(folder):
                         if re.match(r'^>>Per base sequence quality\tpass', line):
                             readOneOnepass = True
 
-            if '4_2_val_2_fastqc.zip' in file:
+            if f'{mate}_2_val_2_fastqc.zip' in file:
                 subprocess.run(['unzip', file])
                 readtwofolder = file[:-4]
                 with open(readtwofolder + '/fastqc_data.txt', 'r') as report:
@@ -177,7 +176,7 @@ def qualityCheckTrimGalore(folder):
                   ' and for read two: ' + str(readTwopass))
             return False
 
-def performBismark(folder):
+def performBismark(folder, mate):
 
     """"Previous to this step you must have run
      bismark_genome_preparation \
@@ -198,16 +197,16 @@ def performBismark(folder):
                 bis11 = file
             if 'L1_2_val_2.fq.gz' in file:
                 bis12 = file
-            if 'L4_1_val_1.fq.gz' in file:
+            if f'L{mate}_1_val_1.fq.gz' in file:
                 bis21 = file
-            if 'L4_2_val_2.fq.gz' in file:
+            if f'L{mate}_2_val_2.fq.gz' in file:
                 bis22 = file
         #  --parallel 6
-        subprocess.call(
-                bismark + ' --non_directional --genome_folder ' + genomeFolder +
+        subprocess.run(
+                bismark + ' --unmapped --local --non_directional --genome_folder ' + genomeFolder +
                 ' -1 ' + bis11 + ',' + bis21 +
                 ' -2 ' + bis12 + ',' + bis22 + ' >totalBismark.txt 2>&1',
-                shell=True
+                shell=True, check=True
                         )
 
 def performBowtie2fourfiles(folder, bowtie2mode, samOutputName):
@@ -225,9 +224,9 @@ def performBowtie2fourfiles(folder, bowtie2mode, samOutputName):
                 readOneOne = file
             if 'L2_2_val_2.fq.gz' in file:
                 readOneTwo = file
-            if 'L4_1_val_1.fq.gz' in file:
+            if 'L3_1_val_1.fq.gz' in file:
                 readTwoOne = file
-            if 'L4_2_val_2.fq.gz' in file:
+            if 'L3_2_val_2.fq.gz' in file:
                 readTwoTwo = file
 
         bowtie2stats = subprocess.run('bowtie2 --phred33 ' + bowtie2mode + ' -t -p 10 -x ' + genomeIndex +
@@ -241,7 +240,7 @@ def performBowtie2fourfiles(folder, bowtie2mode, samOutputName):
             metrics.write(str(bowtie2stats))
 
 
-def deduplicateBismark(folder):
+def deduplicateBismark(folder, mate):
 
     deduplicate = '/home/joaquin/projects/methylation/programs/Bismark-0.22.3/deduplicate_bismark'
 
@@ -253,10 +252,10 @@ def deduplicateBismark(folder):
         for file in file_names:
             if 'L1_1_val_1_bismark_bt2_pe.bam' in file:
                 bisDone1 = file
-            if 'L4_1_val_1_bismark_bt2_pe.bam' in file:
+            if f'L{mate}_1_val_1_bismark_bt2_pe.bam' in file:
                 bisDone2 = file
 
-        subprocess.call(
+        subprocess.run(
             deduplicate + ' --multiple -p --bam ' + bisDone1 + ' ' + bisDone2 + ' >totalDeduplicate.txt 2>&1',
             shell=True
         )
@@ -274,9 +273,9 @@ def methylationExtractionBismark(folder):
             if 'multiple.deduplicated.bam' in file:
                 bisDeduplicated = file
 
-        subprocess.call(
+        subprocess.run(
             methylationExtraction +
-            ' -p --gzip --parallel 5 --comprehensive --bedGraph --zero_based --CX_context ' +
+            ' -p --gzip --parallel 6 --comprehensive --bedGraph --zero_based --CX_context ' +
             '--cytosine_report --genome_folder ' + genomeFolder + ' --zero_based --CX_context '
             + bisDeduplicated + ' >totalMetExtraction.txt 2>&1',
             shell=True
@@ -286,11 +285,11 @@ def reportBismark(folder):
     
     reportBismarkpath = '/home/joaquin/projects/methylation/programs/Bismark-0.22.3/bismark2report'
     with cd(folder):
-        subprocess.call(
+        subprocess.run(
             'mkdir report',
             shell=True
         )
-        subprocess.call(
+        subprocess.run(
             reportBismarkpath + ' --dir report/',
             shell=True
         )
@@ -331,7 +330,7 @@ def getBamAndDeleteSam(folder):
         for file in file_names:
             if '.sam' in file:
                 samfile = file
-        subprocess.call(['samtools', 'view', '-bh', samfile, '-o', samfile[:-4] + '.bam'])
+        subprocess.run(['samtools', 'view', '-bh', samfile, '-o', samfile[:-4] + '.bam'])
         os.remove(samfile)
 
 
@@ -367,7 +366,7 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
             if file.endswith('orted.bam'):
                 bamfile = file
 
-        subprocess.call(
+        subprocess.run(
                 ['java', '-jar', GEM, '--d', Read_Distribution_default,
                  '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
                  '--expt', bamfile, '--ctrl', inputControl,
@@ -405,7 +404,7 @@ def performGEMnoinput(folder, working_folder_name):  # inputSpecification = f'{i
 
             if file.endswith('orted.bam'):
                 bamfile = file
-        subprocess.call(
+        subprocess.run(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
                  '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
                  '--expt', bamfile, '--poisson_control',
@@ -437,7 +436,7 @@ def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecificat
                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
                 '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
                 '--pp_nmotifs', '1', '--t', '1')
-    subprocess.call(
+    subprocess.run(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
                 '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
                 '--expt', samplePath, '--ctrl', inputControlpath,
@@ -478,7 +477,7 @@ def performGEMmultipleReplicate(folder, inputControlpath, working_folder_name): 
             if file.endswith('orted.bam'):
                 bamfile = file
 
-        # subprocess.call(
+        # subprocess.run(
         #         ['java', '-jar', GEM, '--d', Read_Distribution_default,
         #          '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
         #          '--expt1', bamfileOne, '--expt2', bamfileTwo, '--ctrl1', inputControlOne, '--ctrl2', inputControlTwo,
@@ -509,7 +508,7 @@ def performGEMmultipleReplicateSpecialcase(bam_one_path,bam_two_path,inputContro
              '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
              '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
              '--pp_nmotifs', '1', '--t', '1')
-    subprocess.call(
+    subprocess.run(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
              '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
              '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl', inputControlpath,
@@ -527,7 +526,7 @@ def sortBamFiles(folder):
         for file in file_names:
             if '.bam' in file:
                 bamfile = file
-        subprocess.call('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@30 ' + bamfile,
+        subprocess.run('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@30 ' + bamfile,
                         shell=True
                         )
 
@@ -567,7 +566,7 @@ def performIntersect(folder, ExperimentTarget):
             # firs we check if its already done, to skipt the generation process
             if not os.path.isfile(boxfile + '_' + bamsorted[:-10] + '.bed'):
                 
-                subprocess.call(
+                subprocess.run(
                     'samtools' + ' view -q1 -b ' + bamsorted + ' | ' +
                     'bedtools' + ' intersect -abam stdin -b ' + boxpath[boxfile] + ' -bed -wb ' +
                     '> ' + boxfile + '_' + bamsorted[:-10] + '.bed', shell=True
@@ -650,7 +649,7 @@ def performIntersectLoops(folder):
             # firs we check if its already done, to skipt the generation process
             if not os.path.isfile(boxfile + '_' + bamsorted[:-10] + '.bed'):
                 
-                subprocess.call(
+                subprocess.run(
                     'samtools' + ' view -q1 -b ' + bamsorted + ' | ' +
                     'bedtools' + ' intersect -abam stdin -b ' + boxpath[boxfile] + ' -bed -wb ' +
                     '> ' + boxfile + '_' + bamsorted[:-10] + '.bed', shell=True
@@ -816,8 +815,8 @@ def performBigWigextraction(folder):
                 bamsorted = file
                 bigw = str(bamsorted[:-10]) + 'coverage.bw'
 
-        subprocess.call('samtools index ' + bamsorted, shell=True)
-        subprocess.call('bamCoverage -b ' + bamsorted +
+        subprocess.run('samtools index ' + bamsorted, shell=True)
+        subprocess.run('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw + 
                         ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 10', shell=True)
 
@@ -829,8 +828,8 @@ def performBedGraphextraction(folder):
                 # samsorted = file
                 bamsorted = file
                 bigw = str(bamsorted[:-10]) + 'coverage.bedgraph'
-        # subprocess.call('samtools index ' + bamsorted, shell=True)
-        subprocess.call('bamCoverage -b ' + bamsorted +
+        # subprocess.run('samtools index ' + bamsorted, shell=True)
+        subprocess.run('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw + 
                         ' -of bedgraph --normalizeUsing BPM --binSize 10 --numberOfProcessors 40', shell=True)
 
@@ -930,7 +929,7 @@ def mapMethytilatedCitosine(folder):
 
 def bigwigReplicatesAnalisys(experimentDic, experimentNameBase):
     print(' '.join(experimentDic.values()))
-    subprocess.call(
+    subprocess.run(
             'multiBigwigSummary bins -bs 10 -b ' + ' '.join(experimentDic.values()) + '  --labels ' + ' '.join(experimentDic.keys()) +
             ' -p 40 -o '+ experimentNameBase + '.npz' +' --outRawCounts ' + experimentNameBase + '.tab',
             shell=True
@@ -957,7 +956,7 @@ def getTheMeanValueFromBigWigReplicates(tsvFromMultiBigwigSummary, metstate):
     return meansummaryDf
 
 def bedgraphToBwFromMean(bedgraphFilePath, speciesIndexChrSize):
-    subprocess.call('bedGraphToBigWig ' + bedgraphFilePath + ' ' + speciesIndexChrSize + ' ' + bedgraphFilePath[:-8]+'bw',
+    subprocess.run('bedGraphToBigWig ' + bedgraphFilePath + ' ' + speciesIndexChrSize + ' ' + bedgraphFilePath[:-8]+'bw',
             shell=True)
 
 

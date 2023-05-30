@@ -15,10 +15,12 @@ from utilpipeline import (
     reportBismark
 )
 
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_bisulfite_rep3.csv'
-working_folder = '/home/joaquin/projects/methylation/data/bisulfite_rep1_rep2_rep3'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_check_goodshit.csv'
+working_folder = '/home/joaquin/projects/methylation/data/bisulfite_quick_and_dirty_rep1_rep2'
 raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_bisulfite_rep1_rep2_rep3'
-execution_reports = '/home/joaquin/projects/methylation/execution_reports/ids_bisulfite_rep3_execution_reports.txt'
+execution_reports = '/home/joaquin/projects/methylation/execution_reports/ids_bisulfite_test_case_two_execution_report.txt'
+
+mate_number = str(3)
 
 def burn_to_report(message):
     with open(execution_reports, 'a') as repor_something:
@@ -76,15 +78,15 @@ with cd(working_folder):
                 originalFile = os.path.join(originalfolder, fileInside)
                 shutil.move(originalFile, targetFolder)
         
-        performTrimGaloreFourFilesBisulfite(targetFolder)
+        performTrimGaloreFourFilesBisulfite(targetFolder, mate_number)
         
         for file in gzs:
             destinationFile = os.path.join(targetFolder, file)
             shutil.move(destinationFile, originalfolder)
 
 
-        if qualityCheckTrimGaloreFourFiles(targetFolder):
-            message = 'QualityCheckTrimGaloreFourFiles correct. Doing Bismark in ' + targetFolder + ' from ' + id.id + ' \n'
+        if qualityCheckTrimGaloreFourFiles(targetFolder,mate_number):
+            message = 'Quality Check TrimGalore FourFiles correct. Doing Bismark in ' + targetFolder + ' from ' + id.id + ' \n'
             print(message)
             burn_to_report(message)
         else:
@@ -94,9 +96,9 @@ with cd(working_folder):
             continue
 
         print('Doing bismark in ' + targetFolder + ' from ' + id.id)
-        performBismark(targetFolder)
+        performBismark(targetFolder, mate_number)
         print('deduplicate bismark in ' + targetFolder + ' from ' + id.id)
-        deduplicateBismark(targetFolder)
+        deduplicateBismark(targetFolder, mate_number)
         print('methylationExtraction bismark in ' + targetFolder + ' from ' + id.id)
         methylationExtractionBismark(targetFolder)
         print('report bismark in ' + targetFolder + ' from ' + id.id)
