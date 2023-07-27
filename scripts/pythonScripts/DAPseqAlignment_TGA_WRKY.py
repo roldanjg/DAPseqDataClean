@@ -14,12 +14,12 @@ import shutil
 from constants import genomeIndex, gemIndex, genomeSizes
 
 
-Species = 'Solanum tuberosum'
-project_id = 'potato_Salome'
+Species = 'Arabidopsis thaliana'
+project_id = 'TGA_WRKY'
 ids_file = f'/home/joaquin/projects/methylation/data/commonData/ids_data_{project_id}.csv'
-working_folder = f'/home/joaquin/projects/methylation/data/data_{project_id}_1/'
+working_folder = f'/home/joaquin/projects/methylation/data/data_{project_id}/'
 raw_folder = f'/home/joaquin/projects/methylation/data/AllRawData/raw_data_{project_id}'
-working_folder_name = 'data_{project_id}_1'
+working_folder_name = f'data_{project_id}'
 BWFolder = os.path.join('/home/joaquin/projects/methylation/data/bigwigs/',working_folder_name)
 gemsFolder = os.path.join('/home/joaquin/projects/methylation/data/gemFiles/',working_folder_name)
 
@@ -56,17 +56,41 @@ with cd(working_folder):
             if checkMD5isCorrect(originalfolder):
                 print('Checking Fastaq lenghts from ' + attri.rawindex)
                 if checkFastaQLenght(originalfolder):
-                    for fileInside in file_names:
-                        if 'gz' in fileInside:
-                            gzs.append((fileInside))
-                            originalFile = os.path.join(originalfolder, fileInside)
-                            shutil.move(originalFile, targetFolder)
+                    if len(file_names) > 4:
+                        print('fourfiles in folder',originalfolder)
+                        set_names = set()
+                        listadearchi = os.listdir(originalfolder)
+                        for filefq in listadearchi:
+                            if 'fq' in filefq:
+                                set_names.add(filefq.split('.fq')[0][:-1])
+                        list_names = list(set_names)
+                        # print(len(list_names))
+                        onemerge = f'{originalfolder}/{list_names[0]}1.fq.gz {originalfolder}/{list_names[1]}1.fq.gz'
+                        twomerge = f'{originalfolder}/{list_names[0]}2.fq.gz {originalfolder}/{list_names[1]}2.fq.gz'
+                        base_file = os.path.join(working_folder,targetFolder,attri.rawindex)
+                        mergereads = subprocess.run(f'cat {onemerge} > {base_file}_1.fq.gz && cat {twomerge} > {base_file}_2.fq.gz', shell=True, capture_output=True)
+                        print(f'cat {onemerge} > {base_file}_1.fastq.gz && cat {twomerge} > {base_file}_2.fastq.gz')
+                        print(mergereads.stdout, mergereads.stderr)
+                        print('Doing Trim galore in ' + targetFolder + ' from ' + attri.rawindex)
+                        performTrimGalore(targetFolder)
+                        descompr = subprocess.run(f'rm {base_file}_1.fq.gz', shell=True,capture_output=True)
+                        print(descompr.stdout,descompr.stderr)
+                        descompr = subprocess.run(f'rm {base_file}_2.fq.gz', shell=True,capture_output=True)
+                        print(descompr.stdout,descompr.stderr)
+                    else:
+                        #  gz + MD5 in case of single-read or 2 gzs and MD5 in case of pair-ends,
+                        #  more if divided long files
+                        for fileInside in file_names:
+                            if 'gz' in fileInside:
+                                gzs.append((fileInside))
+                                originalFile = os.path.join(originalfolder, fileInside)
+                                shutil.move(originalFile, targetFolder)
+                                print('Doing Trim galore in ' + targetFolder + ' from ' + attri.rawindex)
+                                performTrimGalore(targetFolder)
+                                for file in gzs:
+                                    destinationFile = os.path.join(targetFolder, file)
+                                    shutil.move(destinationFile, originalfolder)
 
-                    print('Doing Trim galore in ' + targetFolder + ' from ' + attri.rawindex)
-                    performTrimGalore(targetFolder)
-                    for file in gzs:
-                        destinationFile = os.path.join(targetFolder, file)
-                        shutil.move(destinationFile, originalfolder)
                     print('Trim galore finished,checking results...')
                     if qualityCheckTrimGalore(targetFolder):
                         samfileexperiment = \

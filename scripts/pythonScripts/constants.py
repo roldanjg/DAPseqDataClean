@@ -78,6 +78,14 @@ genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisTha
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome.index.txt'
 
+# -----------------we calculate the number of the efective genome size as the total bp that are not N in the genome
+# cp /home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/MpTak1v5.1.fasta 
+# /home/joaquin/projects/methylation/mapol.fa && 
+# sed -i -e 's/N//g' /home/joaquin/projects/methylation/mapol.fa &&
+# grep -v '>' /home/joaquin/projects/methylation/mapol.fa | wc -m && grep -v '>' /home/joaquin/projects/methylation/mapol.fa | wc -l
+
+
 # efective_size = '700000000' #solanumTuberosum
 efective_size = '150000000' #arabidopsisThaliana Col-0
-
+# efective_size = str(488104087-5326534) #cicerArietinum 488104087    5326534
+# efective_size = str(218142404-444) #marchantiaPolimorpha 488104087    5326534

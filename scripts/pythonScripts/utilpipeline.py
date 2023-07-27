@@ -312,7 +312,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 32 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 24 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -818,7 +818,7 @@ def performBigWigextraction(folder):
         subprocess.run('samtools index ' + bamsorted, shell=True)
         subprocess.run('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw + 
-                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 10', shell=True)
+                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 24', shell=True)
 
 def performBedGraphextraction(folder):
     with cd(folder):
