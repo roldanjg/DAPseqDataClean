@@ -14,13 +14,13 @@ import shutil
 from constants import genomeIndex, gemIndex, genomeSizes
 
 
-Species = 'Solanum tuberosum'
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_data_slovenia_inputSalome.csv'
-working_folder = '/home/joaquin/projects/methylation/data/data_slovenia_input_bien'
-raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_data_slovenia'
-working_folder_name = 'data_slovenia_input_bien'
-BWFolder = os.path.join('/home/joaquin/projects/methylation/data/bigwigs_data_slovenia_input_bien',working_folder_name)
-gemsFolder = os.path.join('/home/joaquin/projects/methylation/data/gemFiles_data_slovenia_input_bien',working_folder_name)
+Species = 'Arabidopsis thaliana'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_dap_on_atac_1.csv'
+working_folder = '/home/joaquin/projects/methylation/data/data_dap_on_atac_1'
+raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_data_dap_on_atac_1'
+working_folder_name = 'data_dap_on_atac_1'
+BWFolder = os.path.join('/home/joaquin/projects/methylation/data/bigwigs/',working_folder_name)
+gemsFolder = os.path.join('/home/joaquin/projects/methylation/data/gemFiles/',working_folder_name)
 
 bowtie2mode = '--sensitive'
 
@@ -37,12 +37,12 @@ Path(BWFolder).mkdir(parents=True, exist_ok=True)
 Path(gemsFolder).mkdir(parents=True, exist_ok=True)
 
 with open(ids_file, 'r') as samplesOntology:
-    idsDf = pd.read_csv(samplesOntology, names=['rawindex', 'tf'])
+    idsDf = pd.read_csv(samplesOntology, names=['rawindex', 'tf', 'treatment', 'rep'])
 
 with cd(working_folder):
     for index, attri in idsDf.iterrows():
         gzs = []
-        targetFolder = os.path.join(str(attri.tf))
+        targetFolder = os.path.join(str(attri.tf),str(attri.treatment),str(attri.rep))
         Path(targetFolder).mkdir(parents=True, exist_ok=True)
 
         originalfolder = os.path.join(raw_folder, attri.rawindex)
@@ -68,7 +68,7 @@ with cd(working_folder):
                     print('Trim galore finished,checking results...')
                     if qualityCheckTrimGalore(targetFolder):
                         samfileexperiment = \
-                        f'{str(attri.tf)}.sam'
+                        f'{str(attri.tf)}{str(attri.treatment)}{str(attri.rep)}.sam'
 
                         print('Doing Bowtie2 in ' + targetFolder + ' from ' + attri.rawindex)
                         performBowtie2(
@@ -83,7 +83,8 @@ with cd(working_folder):
                         print('this is an input file so dont do GEM!')
                     else:
                         inputControlpath = os.path.join(
-                            '/home/joaquin/projects/methylation/data', working_folder_name, 'input'
+                            '/home/joaquin/projects/methylation/data', working_folder_name, 'Input',
+                            str(attri.treatment), str(attri.rep)
                         )
                         performGEM(targetFolder, inputControlpath, working_folder_name)
                     performBigWigextraction(targetFolder)

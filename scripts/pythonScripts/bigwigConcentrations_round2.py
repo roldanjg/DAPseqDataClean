@@ -9,9 +9,9 @@ from utilpipeline import (
     performBigWigextraction
 )
 
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_data_concentraciones.csv'
-working_folder_name = '/home/joaquin/projects/methylation/data/data_concentraciones'
-bigWigFolder = '/home/joaquin/projects/methylation/data/bigwigs/bigwigConcentrations'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_concentraciones_round2.csv'
+working_folder_name = '/home/joaquin/projects/methylation/data/data_concentraciones_round2'
+bigWigFolder = '/home/joaquin/projects/methylation/data/bigwigs/bigwigConcentrations_round2'
 
 with open(ids_file, 'r') as samplesOntology:
     idsDf = pd.read_csv(samplesOntology, names=['id', 'tf', 'time', 'treatment'])

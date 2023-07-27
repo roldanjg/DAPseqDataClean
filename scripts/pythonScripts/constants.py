@@ -78,4 +78,6 @@ genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisTha
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome.index.txt'
 
+# efective_size = '700000000' #solanumTuberosum
+efective_size = '150000000' #arabidopsisThaliana Col-0
 

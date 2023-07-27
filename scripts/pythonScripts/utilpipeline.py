@@ -10,7 +10,7 @@ import gzip
 import csv
 import json
 
-from constants import genomeIndex, gemIndex, genomeSizes
+from constants import genomeIndex, gemIndex, genomeSizes,efective_size
 
 def checkMD5isCorrect(folder):
     with cd(folder):
@@ -312,7 +312,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 34 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 32 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -368,7 +368,7 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
 
         subprocess.run(
                 ['java', '-jar', GEM, '--d', Read_Distribution_default,
-                 '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+                 '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
                  '--expt', bamfile, '--ctrl', inputControl,
                  '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                  '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
@@ -502,16 +502,16 @@ def performGEMmultipleReplicateSpecialcase(bam_one_path,bam_two_path,inputContro
     Read_Distribution_default = '/home/joaquin/projects/methylation/programs/gem/Read_Distribution_default.txt'
 
     print('java', '-jar', GEM, '--d', Read_Distribution_default,
-             '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
-             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl', inputControlpath,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl1', inputControlpath, '--ctrl2', inputControlpath,
              '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
              '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
              '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
              '--pp_nmotifs', '1', '--t', '1')
     subprocess.run(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
-             '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
-             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl', inputControlpath,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl1', inputControlpath, '--ctrl2', inputControlpath,
              '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
              '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
              '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
@@ -526,7 +526,7 @@ def sortBamFiles(folder):
         for file in file_names:
             if '.bam' in file:
                 bamfile = file
-        subprocess.run('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@30 ' + bamfile,
+        subprocess.run('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@24 ' + bamfile,
                         shell=True
                         )
 

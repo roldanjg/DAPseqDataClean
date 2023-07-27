@@ -1,26 +1,34 @@
+from cdmanager import cd
 import os
 from pathlib import Path
-import subprocess
 import pandas as pd
-from cdmanager import cd
-from utilpipeline import (
-    checkFastaQLenght, checkMD5isCorrect,
-    getBamAndDeleteSam, performBigWigextraction,
-    performBowtie2, performTrimGalore,
-    qualityCheckTrimGalore, renameAndMoveBigWig,
-    renameGemFolders, sortBamFiles,performGEM
-                          )
 import shutil
-from constants import genomeIndex, gemIndex, genomeSizes
+from pathlib import Path
+
+from utilpipeline import (
+    checkMD5isCorrect,
+    checkFastaQLenght,
+    performTrimGalore,
+    qualityCheckTrimGalore,
+    performBowtie2,
+    getBamAndDeleteSam,
+    sortBamFiles,
+    performGEM,
+    renameGemFolders,
+    performBigWigextraction,
+    renameAndMoveBigWig
+)
+
+from constants import genomeIndex, gemIndex, genomeSizes, efective_size
 
 
-Species = 'Solanum tuberosum'
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_data_slovenia_inputSalome.csv'
-working_folder = '/home/joaquin/projects/methylation/data/data_slovenia_input_bien'
-raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_data_slovenia'
-working_folder_name = 'data_slovenia_input_bien'
-BWFolder = os.path.join('/home/joaquin/projects/methylation/data/bigwigs_data_slovenia_input_bien',working_folder_name)
-gemsFolder = os.path.join('/home/joaquin/projects/methylation/data/gemFiles_data_slovenia_input_bien',working_folder_name)
+Species = 'Arabidopsis thaliana'
+ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_dap_on_atac_tfs.csv'
+working_folder = '/home/joaquin/projects/methylation/data/data_dap_on_atac_tfs'
+raw_folder = '/home/joaquin/projects/methylation/data/AllRawData/raw_data_dap_on_atac_1'
+working_folder_name = 'data_dap_on_atac_tfs'
+BWFolder = os.path.join('/home/joaquin/projects/methylation/data/bigwigs',working_folder_name)
+gemsFolder = os.path.join('/home/joaquin/projects/methylation/data/gemFiles',working_folder_name)
 
 bowtie2mode = '--sensitive'
 
@@ -28,10 +36,13 @@ bowtie2mode = '--sensitive'
 print(f'''species name = {Species}
           genomeIndex =  {genomeIndex}
           gemIndex = {gemIndex}
-          genomeSizes = {genomeSizes}''')
+          genomeSizes = {genomeSizes}
+          efective_size = {efective_size}
+          ''')
 
 
 # create bigwig folder
+Path(working_folder).mkdir(parents=True, exist_ok=True)
 Path(BWFolder).mkdir(parents=True, exist_ok=True)
 # createGEMsummaryFolder
 Path(gemsFolder).mkdir(parents=True, exist_ok=True)
@@ -40,19 +51,18 @@ with open(ids_file, 'r') as samplesOntology:
     idsDf = pd.read_csv(samplesOntology, names=['rawindex', 'tf'])
 
 with cd(working_folder):
-    for index, attri in idsDf.iterrows():
+    for index, attr in idsDf.iterrows():
         gzs = []
-        targetFolder = os.path.join(str(attri.tf))
+        targetFolder = os.path.join(attr.tf)
         Path(targetFolder).mkdir(parents=True, exist_ok=True)
 
-        originalfolder = os.path.join(raw_folder, attri.rawindex)
+        originalfolder = os.path.join(raw_folder, attr.rawindex)
         file_names = os.listdir(originalfolder)
         if len(file_names) >= 2:
-            #  gz + MD5 in case of single-read or 2 gzs and MD5 in case of pair-ends,
-            #  more if divided long files
-            print('Checking MD5 from ' + attri.rawindex)
+            #  gz + MD5 in case of single-read or 2 gzs and MD5 in case of pair-ends, more if divided long files
+            print('Checking MD5 from ' + attr.rawindex)
             if checkMD5isCorrect(originalfolder):
-                print('Checking Fastaq lenghts from ' + attri.rawindex)
+                print('Checking Fastaq lenghts from ' + attr.rawindex)
                 if checkFastaQLenght(originalfolder):
                     for fileInside in file_names:
                         if 'gz' in fileInside:
@@ -60,17 +70,15 @@ with cd(working_folder):
                             originalFile = os.path.join(originalfolder, fileInside)
                             shutil.move(originalFile, targetFolder)
 
-                    print('Doing Trim galore in ' + targetFolder + ' from ' + attri.rawindex)
+                    print('Doing Trim galore in ' + targetFolder + ' from ' + attr.rawindex)
                     performTrimGalore(targetFolder)
                     for file in gzs:
                         destinationFile = os.path.join(targetFolder, file)
                         shutil.move(destinationFile, originalfolder)
                     print('Trim galore finished,checking results...')
                     if qualityCheckTrimGalore(targetFolder):
-                        samfileexperiment = \
-                        f'{str(attri.tf)}.sam'
-
-                        print('Doing Bowtie2 in ' + targetFolder + ' from ' + attri.rawindex)
+                        samfileexperiment = '{}.sam'.format(attr.tf)
+                        print('Doing Bowtie2 in ' + targetFolder + ' from ' + attr.rawindex)
                         performBowtie2(
                             targetFolder,
                             bowtie2mode,
@@ -79,15 +87,15 @@ with cd(working_folder):
 
                     getBamAndDeleteSam(targetFolder)
                     sortBamFiles(targetFolder)
-                    if attri.tf == 'Input':
+                    if attr.tf == 'Input':
                         print('this is an input file so dont do GEM!')
                     else:
                         inputControlpath = os.path.join(
-                            '/home/joaquin/projects/methylation/data', working_folder_name, 'input'
+                            '/home/joaquin/projects/methylation/data', working_folder_name, 'Input/'
                         )
                         performGEM(targetFolder, inputControlpath, working_folder_name)
                     performBigWigextraction(targetFolder)
                     renameAndMoveBigWig(targetFolder, BWFolder)
 
-
 renameGemFolders(working_folder,gemsFolder)
+
