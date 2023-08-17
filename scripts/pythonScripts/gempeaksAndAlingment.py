@@ -9,15 +9,16 @@ from utilpipeline import (
     calculationGemSummary,
     calculationBowtieSummary
 )
-ids_file = '/home/joaquin/projects/methylation/data/commonData/ids_dap_on_atac_1.csv'
-working_folder = '/home/joaquin/projects/methylation/data/data_dap_on_atac_1/'
+case = 'arabidopsis_ecotypes_IP_rep2'
+ids_file = f'/home/joaquin/projects/methylation/data/commonData/ids_data_{case}.csv'
+working_folder = f'/home/joaquin/projects/methylation/data/data_{case}/'
 
 
 with open(ids_file, 'r') as samplesOntology:
     idsDf = pd.read_csv(samplesOntology, names=['rawindex', 'tf', 'treatment', 'rep'])
 
 
-with open(f'{working_folder}/summary.tsv', 'w') as  hola:
+with open(f'/home/joaquin/projects/methylation/peaks_and_alingment/{case}_summary.tsv', 'w') as  hola:
 
     with cd(working_folder):
         for index, id in idsDf.iterrows():
@@ -38,3 +39,7 @@ with open(f'{working_folder}/summary.tsv', 'w') as  hola:
                     Significant
                     )
                     ) 
+
+# names=['rawindex', 'tf', 'treatment', 'rep']
+# id.tf,str(id.treatment),str(id.rep)
+# id.tf+'_'+str(id.treatment)+'_'+str(id.rep)

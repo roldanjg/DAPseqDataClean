@@ -312,7 +312,7 @@ def performBowtie2(folder, bowtie2mode, samOutputName):
                 readTwo = file
 
         bowtie2stats = subprocess.run(
-            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 24 -x ' + genomeIndex + ' -1 ' +
+            'bowtie2 --phred33 ' + bowtie2mode + ' -t -p 48 -x ' + genomeIndex + ' -1 ' +
             readOne + ' -2 ' + readTwo + ' -S ' + samOutputName,
             shell=True, capture_output=True
             )
@@ -519,6 +519,35 @@ def performGEMmultipleReplicateSpecialcase(bam_one_path,bam_two_path,inputContro
              stdout=subprocess.DEVNULL,
              stderr=subprocess.STDOUT
         )
+
+def performGEMmultipleReplicateSpecialcaseTwoInputs(bam_one_path,bam_two_path,inputControlpathOne,inputControlpathTwo, outputFolder):  # inputSpecification = f'{id.time}/{id.tratement}'
+
+    """ Before running this function, you must had run
+    cat <path_to_genome.fasta> |  awk -v RS=">" '{ print RS $0 > substr($1,1) ".fa"}''
+    in your common files folder and specify here the path to that document"""
+
+    GEM = '/home/joaquin/projects/methylation/programs/gem/gem.jar'
+    Read_Distribution_default = '/home/joaquin/projects/methylation/programs/gem/Read_Distribution_default.txt'
+
+    print('java', '-jar', GEM, '--d', Read_Distribution_default,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl1', inputControlpathOne, '--ctrl2', inputControlpathTwo,
+             '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+             '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+             '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+             '--pp_nmotifs', '1', '--t', '1')
+    subprocess.run(
+            ['java', '-jar', GEM, '--d', Read_Distribution_default,
+             '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
+             '--expt1', bam_one_path, '--expt2', bam_two_path, '--ctrl1', inputControlpathOne, '--ctrl2', inputControlpathTwo,
+             '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+             '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
+             '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
+             '--pp_nmotifs', '1', '--t', '1'],
+             stdout=subprocess.DEVNULL,
+             stderr=subprocess.STDOUT
+        )
+
 def sortBamFiles(folder):
     with cd(folder):
         # samtools = '/home/joaquin/projects/webproyect/programs/samtools-1.10/samtools'
@@ -526,7 +555,7 @@ def sortBamFiles(folder):
         for file in file_names:
             if '.bam' in file:
                 bamfile = file
-        subprocess.run('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@24 ' + bamfile,
+        subprocess.run('samtools' + ' sort -l 9 -m 4GiB -o ' + bamfile[:-4] + 'sorted.bam -O bam -@40 ' + bamfile,
                         shell=True
                         )
 
@@ -818,7 +847,7 @@ def performBigWigextraction(folder):
         subprocess.run('samtools index ' + bamsorted, shell=True)
         subprocess.run('bamCoverage -b ' + bamsorted +
                         ' -o ' + bigw + 
-                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 24', shell=True)
+                        ' --normalizeUsing BPM --binSize 10 --numberOfProcessors 48', shell=True)
 
 def performBedGraphextraction(folder):
     with cd(folder):

@@ -23,7 +23,7 @@ genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisTha
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9874/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/medicagoTruncatula/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/brassicaOleracea/genome_index'
-# genomeIndex = '/home/joaquin/projects/methylation/data/commonData/brassicaOleracea/genome_index'
+# genomeIndex = '/home/joaquin/projects/methylation/data/commonData/cicerArietinum/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome_index' 
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome_index'
 # sed -i 's/ version 1.0//g' Carietinum_492_v1.0.fa
