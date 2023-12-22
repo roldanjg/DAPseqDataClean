@@ -1,0 +1,275 @@
+species name = Solanum tuberosum
+          genomeIndex =  /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome_index
+          gemIndex = /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/solTu
+          genomeSizes = /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome.index.txt
+Checking MD5 from Sample_2
+Checking Fastaq lenghts from Sample_2
+Doing Trim galore in 2 from Sample_2
+Traceback (most recent call last):
+  File "DAPseqAlignment_slovenia_inputSalome.py", line 88, in <module>
+    performTrimGalore(targetFolder)
+  File "/home/joaquin/projects/methylation/scripts/pythonScripts/utilpipeline.py", line 55, in performTrimGalore
+    '--cores', '4', '--paired', readOne, readTwo])
+UnboundLocalError: local variable 'readTwo' referenced before assignment
+Path to Cutadapt set as: 'cutadapt' (default)
+Cutadapt seems to be working fine (tested command 'cutadapt --version')
+Cutadapt version: 3.5
+Could not detect version of Python used by Cutadapt from the first line of Cutadapt (but found this: >>>#!/bin/sh<<<)
+Letting the (modified) Cutadapt deal with the Python version instead
+pigz 2.6
+Parallel gzip (pigz) detected. Proceeding with multicore (de)compression using 4 cores
+
+Started analysis of Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 5% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 10% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 15% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 20% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 25% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 30% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 35% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 40% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 45% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 50% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 55% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 60% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 65% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 70% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 75% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 80% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 85% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 90% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 95% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Analysis complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Started analysis of Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 5% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 10% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 15% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 20% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 25% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 30% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 35% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 40% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 45% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 50% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 55% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 60% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 65% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 70% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 75% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 80% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 85% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 90% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 95% complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Analysis complete for Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Archive:  Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc.zip
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/fastqc_icon.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/warning.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/error.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/tick.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/summary.txt  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_tile_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_sequence_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_sequence_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_sequence_gc_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_n_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/sequence_length_distribution.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/duplication_levels.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/adapter_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc_report.html  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc_data.txt  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc.fo  
+Archive:  Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc.zip
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/
+   creating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/fastqc_icon.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/warning.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/error.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/tick.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/summary.txt  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_tile_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_sequence_quality.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_sequence_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_sequence_gc_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_n_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/sequence_length_distribution.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/duplication_levels.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/adapter_content.png  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc_report.html  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc_data.txt  
+  inflating: Sample_1_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc.fo  
+[bam_sort_core] merging from 0 files and 40 in-memory blocks...
+normalization: BPM
+bamFilesList: ['1sorted.bam']
+binLength: 10
+numberOfSamples: None
+blackListFileName: None
+skipZeroOverZero: False
+bed_and_bin: False
+genomeChunkSize: None
+defaultFragmentLength: read length
+numberOfProcessors: 48
+verbose: False
+region: None
+bedFile: None
+minMappingQuality: None
+ignoreDuplicates: False
+chrsToSkip: []
+stepSize: 10
+center_read: False
+samFlag_include: None
+samFlag_exclude: None
+minFragmentLength: 0
+maxFragmentLength: 0
+zerosToNans: False
+smoothLength: None
+save_data: False
+out_file_for_raw_data: None
+maxPairedFragmentLength: 1000
+Path to Cutadapt set as: 'cutadapt' (default)
+Cutadapt seems to be working fine (tested command 'cutadapt --version')
+Cutadapt version: 3.5
+Could not detect version of Python used by Cutadapt from the first line of Cutadapt (but found this: >>>#!/bin/sh<<<)
+Letting the (modified) Cutadapt deal with the Python version instead
+pigz 2.6
+Parallel gzip (pigz) detected. Proceeding with multicore (de)compression using 4 cores
+
+Started analysis of Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 5% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 10% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 15% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 20% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 25% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 30% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 35% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 40% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 45% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 50% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 55% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 60% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 65% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 70% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 75% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 80% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 85% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 90% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Approx 95% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Analysis complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1.fq.gz
+Started analysis of Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 5% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 10% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 15% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 20% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 25% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 30% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 35% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 40% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 45% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 50% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 55% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 60% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 65% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 70% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 75% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 80% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 85% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 90% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Approx 95% complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Analysis complete for Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2.fq.gz
+Archive:  Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc.zip
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/fastqc_icon.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/warning.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/error.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Icons/tick.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/summary.txt  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_tile_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_sequence_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_sequence_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_sequence_gc_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/per_base_n_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/sequence_length_distribution.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/duplication_levels.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/Images/adapter_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc_report.html  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc_data.txt  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_1_val_1_fastqc/fastqc.fo  
+Archive:  Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc.zip
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/
+   creating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/fastqc_icon.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/warning.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/error.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Icons/tick.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/summary.txt  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_tile_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_sequence_quality.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_sequence_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_sequence_gc_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/per_base_n_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/sequence_length_distribution.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/duplication_levels.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/Images/adapter_content.png  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc_report.html  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc_data.txt  
+  inflating: Sample_2_EKDL220016639-1A_HKHN7DSX5_L1_2_val_2_fastqc/fastqc.fo  
+[bam_sort_core] merging from 0 files and 40 in-memory blocks...
+normalization: BPM
+bamFilesList: ['2sorted.bam']
+binLength: 10
+numberOfSamples: None
+blackListFileName: None
+skipZeroOverZero: False
+bed_and_bin: False
+genomeChunkSize: None
+defaultFragmentLength: read length
+numberOfProcessors: 48
+verbose: False
+region: None
+bedFile: None
+minMappingQuality: None
+ignoreDuplicates: False
+chrsToSkip: []
+stepSize: 10
+center_read: False
+samFlag_include: None
+samFlag_exclude: None
+minFragmentLength: 0
+maxFragmentLength: 0
+zerosToNans: False
+smoothLength: None
+save_data: False
+out_file_for_raw_data: None
+maxPairedFragmentLength: 1000
+species name = Solanum tuberosum
+          genomeIndex =  /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome_index
+          gemIndex = /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/solTu
+          genomeSizes = /home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome.index.txt
+Checking MD5 from Sample_1
+Checking Fastaq lenghts from Sample_1
+Doing Trim galore in 1 from Sample_1
+Trim galore finished,checking results...
+Doing Bowtie2 in 1 from Sample_1
+Bowtie2 summary: b''
+Bowtie2 errors if any: b'Time loading reference: 00:00:00\nTime loading forward index: 00:00:00\nTime loading mirror index: 00:00:00\nMultiseed full-index search: 00:04:21\n9938516 reads; of these:\n  9938516 (100.00%) were paired; of these:\n    2188603 (22.02%) aligned concordantly 0 times\n    2892756 (29.11%) aligned concordantly exactly 1 time\n    4857157 (48.87%) aligned concordantly >1 times\n    ----\n    2188603 pairs aligned concordantly 0 times; of these:\n      45063 (2.06%) aligned discordantly 1 time\n    ----\n    2143540 pairs aligned 0 times concordantly or discordantly; of these:\n      4287080 mates make up the pairs; of these:\n        3830175 (89.34%) aligned 0 times\n        240398 (5.61%) aligned exactly 1 time\n        216507 (5.05%) aligned >1 times\n80.73% overall alignment rate\nTime searching: 00:04:21\nOverall time: 00:04:21\n'
+1/1coverage.bw /home/joaquin/projects/methylation/data/bigwigs/data_slovenia_input_correcto
+Checking MD5 from Sample_2
+Checking Fastaq lenghts from Sample_2
+Doing Trim galore in 2 from Sample_2
+Trim galore finished,checking results...
+Doing Bowtie2 in 2 from Sample_2
+Bowtie2 summary: b''
+Bowtie2 errors if any: b'Time loading reference: 00:00:00\nTime loading forward index: 00:00:00\nTime loading mirror index: 00:00:00\nMultiseed full-index search: 00:03:52\n11119217 reads; of these:\n  11119217 (100.00%) were paired; of these:\n    2823547 (25.39%) aligned concordantly 0 times\n    2958185 (26.60%) aligned concordantly exactly 1 time\n    5337485 (48.00%) aligned concordantly >1 times\n    ----\n    2823547 pairs aligned concordantly 0 times; of these:\n      55898 (1.98%) aligned discordantly 1 time\n    ----\n    2767649 pairs aligned 0 times concordantly or discordantly; of these:\n      5535298 mates make up the pairs; of these:\n        5070871 (91.61%) aligned 0 times\n        268852 (4.86%) aligned exactly 1 time\n        195575 (3.53%) aligned >1 times\n77.20% overall alignment rate\nTime searching: 00:03:52\nOverall time: 00:03:52\n'
+2/2coverage.bw /home/joaquin/projects/methylation/data/bigwigs/data_slovenia_input_correcto
+2/GEMout /home/joaquin/projects/methylation/data/gemFiles/data_slovenia_input_correcto/2GEMout
+1/GEMout /home/joaquin/projects/methylation/data/gemFiles/data_slovenia_input_correcto/1GEMout

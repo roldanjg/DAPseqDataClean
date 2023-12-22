@@ -370,7 +370,7 @@ def performGEM(folder, inputControlpath, working_folder_name):  # inputSpecifica
                 ['java', '-jar', GEM, '--d', Read_Distribution_default,
                  '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
                  '--expt', bamfile, '--ctrl', inputControl,
-                 '--out', outputFolder, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
+                 '--out', outputFolder, '--f', 'SAM', '--outNP', '--range', '200', #'--excluded_fraction', '0',
                  '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
                  '--k_min', '6', '--k_max', '20', '--k_seqs', '600', '--k_neg_dinu_shuffle',
                  '--pp_nmotifs', '1', '--t', '1'],
@@ -430,7 +430,7 @@ def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecificat
     #    '/home/joaquin/projects/methylation/data', working_folder_name, 'Input/amplified', inputSpecification
     #)
     print('java', '-jar', GEM, '--d', Read_Distribution_default,
-                '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+                '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
                 '--expt', samplePath, '--ctrl', inputControlpath,
                 '--out', outputPaht, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',
@@ -438,7 +438,7 @@ def performGEMfree(samplePath, inputControlpath, outputPaht):  # inputSpecificat
                 '--pp_nmotifs', '1', '--t', '1')
     subprocess.run(
             ['java', '-jar', GEM, '--d', Read_Distribution_default,
-                '--g', genomeSizes, '--genome', gemIndex, '--s', '150000000',
+                '--g', genomeSizes, '--genome', gemIndex, '--s', efective_size,
                 '--expt', samplePath, '--ctrl', inputControlpath,
                 '--out', outputPaht, '--f', 'SAM', '--outNP', '--excluded_fraction', '0', '--range', '200',
                 '--smooth', '0', '--mrc', '1', '--fold', '2', '--q', '1.301029996',

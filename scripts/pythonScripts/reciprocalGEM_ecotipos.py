@@ -52,20 +52,20 @@ information_case_3 = [
 ]
 
 information_case_4 = [
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/1/1/IP11sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP1'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/2/1/IP21sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP2'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/3/1/IP31sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP3'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/4/1/IP41sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP4'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/5/1/IP51sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP5'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/7/1/IP71sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP7'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/8/1/IP81sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP8'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/10/1/IP101sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP10'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/11/1/IP111sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP11'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/12/1/IP121sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP12'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/13/1/IP131sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP13'],
-    f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',[f'{basefolder_rep_two_or_one}/IP/14/1/IP141sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP14']
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/1/1/IP11sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP1'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/2/1/IP21sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP2'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/3/1/IP31sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP3'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/4/1/IP41sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP4'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/5/1/IP51sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP5'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/7/1/IP71sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP7'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/8/1/IP81sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP8'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/10/1/IP101sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP10'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/11/1/IP111sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP11'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/12/1/IP121sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP12'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/13/1/IP131sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP13'],
+    [f'{basefolder_rep_two_or_one}/Input/Col-0/Input/InputCol-0Input.bam',f'{basefolder_rep_two_or_one}/IP/14/1/IP141sorted.bam','/home/joaquin/projects/methylation/data/reciprocal_gem/arabidopsis_ecotypes_IP_second_round/ipinput/col0-IP14']
 ]
-for information in [information_case_3,information_case_4]:
+for information in [information_case_4]:
     for samplePath, inputControlpath, outputPaht in information:
         print(samplePath, inputControlpath, outputPaht)
         Path(outputPaht).mkdir(parents=True, exist_ok=True)

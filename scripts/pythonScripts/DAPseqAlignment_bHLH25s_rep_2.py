@@ -13,8 +13,9 @@ from utilpipeline import (
 import shutil
 from constants import genomeIndex, gemIndex, genomeSizes
 
-Species = 'Solanum tuberosum desire'
-project_id = 'slovenia_input_correcto'
+
+Species = 'Arabidopsis thaliana'
+project_id = 'bHLH25s_rep_2'
 ids_file = f'/home/joaquin/projects/methylation/data/commonData/ids_data_{project_id}.csv'
 working_folder = f'/home/joaquin/projects/methylation/data/data_{project_id}/'
 raw_folder = f'/home/joaquin/projects/methylation/data/AllRawData/raw_data_{project_id}'
@@ -89,7 +90,6 @@ with cd(working_folder):
                         for file in gzs:
                             destinationFile = os.path.join(targetFolder, file)
                             shutil.move(destinationFile, originalfolder)
-
                     print('Trim galore finished,checking results...')
                     if qualityCheckTrimGalore(targetFolder):
                         samfileexperiment = \

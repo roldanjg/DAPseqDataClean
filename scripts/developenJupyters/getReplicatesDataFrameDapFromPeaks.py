@@ -103,7 +103,7 @@ def generateMeanReplicatesDf(tf, specificPathsSumary):
                         datacolnames.append(datacolname)
         #             los valores que no estan en una de las replicas los completo con un 0
                     df_merged = reduce(lambda  left,right: pd.merge(left,right,on=['chr','star','end','id'],
-                                                    how='outer'), listofdfs).fillna(0)
+                                                    how='outer'), listofdfs)
     #                 print(df_merged)
                     mean_col_name = '{}{}{}'.format(experiment,metState,exptype)
                     df_merged[mean_col_name] = df_merged[datacolnames].mean(axis=1)
@@ -112,7 +112,7 @@ def generateMeanReplicatesDf(tf, specificPathsSumary):
                         allNormalizedreplicates.append(df_merged)
 
     df_merged = reduce(lambda  left,right: pd.merge(left,right,on=['chr','star','end','id'],
-                                                    how='outer'), allNormalizedreplicates).fillna(0)
+                                                    how='outer'), allNormalizedreplicates)
     return df_merged
 
 
