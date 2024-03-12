@@ -13,7 +13,7 @@ bowtie2 index:
 
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/fragariaCamarosa/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/fragariaVesca/genome_index'
-# genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/genome_index'
+genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9568/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9535/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9557/genome_index'
@@ -26,7 +26,7 @@ bowtie2 index:
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/cicerArietinum/genome_index'
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome_index' 
 # genomeIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome_index'
-genomeIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/genome_index'
+# genomeIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/genome_index'
 # sed -i 's/ version 1.0//g' Carietinum_492_v1.0.fa
 # genomeIndex = '/home/joaquin/projects/methylation/data/pseudogenomesAt/genome_index'
 
@@ -39,7 +39,7 @@ GEM index:
 
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/fragariaCamarosa/Fcamchrs/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/fragariaVesca/FVechrs/'
-# gemIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/Athchrs/'
+gemIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/Athchrs/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9568/Athchrs9568/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9535/Athchrs9535/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9557/Athchrs9557/'
@@ -52,7 +52,7 @@ GEM index:
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/cicerArietinum/CiAchrs/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/MapChrs/'
 # gemIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/solTu'
-gemIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/solTuDesi'
+# gemIndex = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/solTuDesi'
 """
 
 GEM total gene lenghs:
@@ -65,7 +65,7 @@ if you want to remove the 00 chr and it is al the end sed -i '/>ST4.03ch00/Q'
 
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/fragariaCamarosa/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/fragariaVesca/genome.index.txt'
-# genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/genome.index.txt'
+genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9568/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9535/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/arabidopsisThaliana/ecotype9557/genome.index.txt'
@@ -78,13 +78,13 @@ if you want to remove the 00 chr and it is al the end sed -i '/>ST4.03ch00/Q'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/cicerArietinum/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/marchantiaPolimorpha/genome.index.txt'
 # genomeSizes = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/genome.index.txt'
-genomeSizes = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/genome.index.txt'
+# genomeSizes = '/home/joaquin/projects/methylation/data/commonData/solanumTuberosum/desiree/genome.index.txt'
 # -----------------we calculate the number of the efective genome size as the total bp that are not N in the genome
 # cp desiree_genome_assembly_v1.0.hap1.fa  test.fa &&  sed -i -e 's/N//g' test.fa && grep -v '>' /test.fa | wc -m && grep -v '>' test.fa | wc -l
 
 
 # efective_size = '700000000' #solanumTuberosum
-efective_size = str(748623706-12272842) #solanumTuberosumdesi
-# efective_size = '150000000' #arabidopsisThaliana Col-0
+# efective_size = str(748623706-12272842) #solanumTuberosumdesi
+efective_size = '150000000' #arabidopsisThaliana Col-0
 # efective_size = str(488104087-5326534) #cicerArietinum 488104087    5326534
 # efective_size = str(218142404-444) #marchantiaPolimorpha 488104087    5326534

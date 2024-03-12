@@ -93,11 +93,6 @@ def performTrimGaloreFourFilesBisulfite(folder, mate):
         #               '-a2 GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGATGACTATCTCGTATGCCGTCTTCTGCTTG ' +
         #               '--paired ' + readTwoOne + ' ' + readTwoTwo, shell=True,check=True)
 
-
-       
-
-
-
 def qualityCheckTrimGaloreFourFiles(folder, mate):
     with cd(folder):
         readOnepass = False
